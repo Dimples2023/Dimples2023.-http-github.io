@@ -193,7 +193,7 @@
   const ipt = document.querySelector('#search-input')
   const btn = document.querySelector('#search-btn')
   const layer = document.querySelector('#search-layer')
-  const posts = JSON.parse(`[{"title":"Hello World","path":"2023/07/06/hello-world/"},{"title":"第一篇Blog","path":"2023/07/06/第一篇Blog/"},{"title":"2023.7.6","path":"2023/07/06/2023-7-6/"},{"title":"So you want to work in security?读后感","path":"2023/07/07/So-you-want-to-work-in-security-读后感/"},{"title":"2023-7-7","path":"2023/07/08/2023-7-7/"},{"title":"Fuzzing101 Exercise 1 Report","path":"2023/07/07/Fuzzing101-Exercise-1-Report/"}]`)
+  const posts = JSON.parse(`[{"title":"Hello World","path":"2023/07/06/hello-world/"},{"title":"第一篇Blog","path":"2023/07/06/第一篇Blog/"},{"title":"2023.7.6","path":"2023/07/06/2023-7-6/"},{"title":"So you want to work in security?读后感","path":"2023/07/07/So-you-want-to-work-in-security-读后感/"},{"title":"2023-7-7","path":"2023/07/08/2023-7-7/"},{"title":"Fuzzing101 Exercise 1 Report","path":"2023/07/07/Fuzzing101-Exercise1/"}]`)
   ipt.addEventListener('keyup', e => {
     if (e.key === 'Enter') {
       handleSearch()
@@ -481,7 +481,7 @@ make install<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
     
     <div class="read-nums">
       <!-- id 将作为查询条件 -->
-      <span id="2023/07/07/Fuzzing101-Exercise-1-Report/" class="leancloud_visitors" data-flag-title="Your Article Title">
+      <span id="2023/07/07/Fuzzing101-Exercise1/" class="leancloud_visitors" data-flag-title="Your Article Title">
         <em class="post-meta-item-text">浏览量</em>
         <i class="leancloud-visitors-count"></i>
       </span>
@@ -533,7 +533,7 @@ make install<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
     recordIP: config.recordIP,
     visitor: config.visitor,
     enableQQ: config.enableQQ,
-    path: '2023/07/07/Fuzzing101-Exercise-1-Report/'
+    path: '2023/07/07/Fuzzing101-Exercise1/'
   })
 </script>
 
