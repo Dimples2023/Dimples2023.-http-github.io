@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>我的技术与生活——第一篇Blog | Dimples的Blog</title>
+  <title>我的技术与生活——Fuzzing101 Exercise 1 Report | Dimples的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `我的技术与生活——第一篇Blog`
+    document.title = `我的技术与生活——Fuzzing101 Exercise 1 Report`
   </script>
 <meta name="generator" content="Hexo 6.3.0"></head>
 
@@ -371,7 +371,7 @@ pre:active {
 
 <div class="article-container">
   <div class="article">
-    <h1 class="article-title">第一篇Blog</h1>
+    <h1 class="article-title">Fuzzing101 Exercise 1 Report</h1>
     <div class="article-info">
       <div class="article-info--item">
         <div class="article-info--info">
@@ -384,21 +384,104 @@ pre:active {
           
           <div class="article-info--tags">
             <span>标签：</span>
-            <a class="tag-link" href="/tags/First-Blog-test/" rel="tag">First Blog test</a>
+            <a class="tag-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
           </div>
           
-          <p class="article-info--date">日期：2023-07-06 10:58:23</p>
+          <p class="article-info--date">日期：2023-07-07 23:59:34</p>
         </div>
         <img src="/imgs/default-cover.webp" alt="" class="article-cover">
       </div>
     </div>
     <article class="article-content">
-      
+      <h5 id="安装调试目标"><a href="#安装调试目标" class="headerlink" title="安装调试目标"></a>安装调试目标</h5><p>从github上下载并解压</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">wget https:&#x2F;&#x2F;dl.xpdfreader.com&#x2F;old&#x2F;xpdf-3.02.tar.gz
+tar -xvzf xpdf-3.02.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>安装依赖和目标</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> update <span class="token operator">&amp;&amp;</span> <span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> <span class="token parameter variable">-y</span> build-essential gcc
+./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span><span class="token string">"<span class="token environment constant">$HOME</span>/fuzz_target/fuzzing_xpdf/install/"</span>
+<span class="token function">make</span>
+<span class="token function">make</span> <span class="token function">install</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>配置configure时常用环境变量</p>
+<ul>
+<li>AS：汇编程序名称</li>
+<li>CC：C编译器名称</li>
+<li>CXX：C++编译器名称</li>
+<li>CPP：C预编译器名称</li>
+<li>**FLAGS：**为不同编译器名称，表示对应编译器的参数</li>
+<li>LD：链接器名称</li>
+<li>AR：归档器archiver名称</li>
+<li>RANLIB：符号表添加器名称</li>
+</ul>
+<h5 id="获取样本"><a href="#获取样本" class="headerlink" title="获取样本"></a>获取样本</h5><p>从网上找到样本sample</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> <span class="token environment constant">$HOME</span>/fuzz_target/fuzzing_xpdf
+<span class="token function">mkdir</span> pdf_examples <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> pdf_examples
+<span class="token function">wget</span> https://github.com/mozilla/pdf.js-sample-files/raw/master/helloworld.pdf
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="测试安装程序运行"><a href="#测试安装程序运行" class="headerlink" title="测试安装程序运行"></a>测试安装程序运行</h5><pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">$HOME&#x2F;fuzz_target&#x2F;fuzzing_xpdf&#x2F;install&#x2F;bin&#x2F;pdfinfo -box -meta $HOME&#x2F;fuzz_target&#x2F;fuzzing_xpdf&#x2F;pdf_examples&#x2F;helloworld.pdf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h5 id="使用fuzz编译器编译"><a href="#使用fuzz编译器编译" class="headerlink" title="使用fuzz编译器编译"></a>使用fuzz编译器编译</h5><p>先删除原来的安装，重新编译安装库</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">rm -r installcd xpdf-3.02 
+make clean
+export LLVM_CONFIG&#x3D;&quot;llvm-config-12&quot;
+CC&#x3D;afl-clang-fast CXX&#x3D;afl-clang-fast++ .&#x2F;configure --prefix&#x3D;&quot;$HOME&#x2F;fuzz_target&#x2F;fuzzing_xpdf&#x2F;install&#x2F;&quot;
+make
+make install<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="fuzz"><a href="#fuzz" class="headerlink" title="fuzz"></a>fuzz</h5><pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">afl-fuzz -i $HOME&#x2F;fuzz_target&#x2F;fuzzing_xpdf&#x2F;pdf_examples&#x2F; -o $HOME&#x2F;fuzz_target&#x2F;fuzzing_xpdf&#x2F;out&#x2F;  -s 123 --
+$HOME&#x2F;fuzz_target&#x2F;fuzzing_xpdf&#x2F;install&#x2F;bin&#x2F;pdftotext @@ 
+$HOME&#x2F;fuzz_target&#x2F;fuzzing_xpdf&#x2F;output<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>参数</p>
+<ul>
+<li>-i：输入样本路径</li>
+<li>-o：输出存储路径</li>
+<li>-s：fuzzing时随机数使用的种子，这里为了尽量保证复现结果，设为123</li>
+<li>–：目标程序</li>
+</ul>
+<p>这里的<code>@@</code>不能少，虽然初始输入都来源于设置的-i参数，但我们需要根据程序读取输入的方式进行调整此参数</p>
+<ul>
+<li>加<code>@@</code>：被fuzz的程序从文件读取输入</li>
+<li>不加<code>@@</code>：被fuzz的程序从标准输入输出流读取输入</li>
+</ul>
+<p>等待一会出结果</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230708003416.png"></p>
+<p>当看到“saved crashes”的值为红色时，就表明发生了崩溃，就可以在$HOME&#x2F;fuzz_target&#x2F;fuzzing_xpdf&#x2F;out&#x2F;default&#x2F;crashes&#x2F;</p>
+<p>目录中找到崩溃文件</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230708003811.png"></p>
+<h5 id="动态调试"><a href="#动态调试" class="headerlink" title="动态调试"></a>动态调试</h5><p>源码编译出带调试符号的文件</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">make clean
+CFLAGS&#x3D;&quot;-g -O0&quot; CXXFLAGS&#x3D;&quot;-g -O0&quot; .&#x2F;configure --prefix&#x3D;&quot;$HOME&#x2F;fuzz_target&#x2F;fuzzing_xpdf&#x2F;install&#x2F;&quot;
+make
+make install<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行GDB</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">gdb --args $HOME&#x2F;fuzz_target&#x2F;fuzzing_xpdf&#x2F;install&#x2F;bin&#x2F;pdftotext $HOME&#x2F;fuzz_target&#x2F;fuzzing_xpdf&#x2F;out&#x2F;default&#x2F;crashes&#x2F;&lt;your_filename&gt; $HOME&#x2F;fuzz_target&#x2F;fuzzing_xpdf&#x2F;output<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>输入r来执行程序，发现溢出</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230708004305.png" alt="微信图片_20230708004305"></p>
+<p>追踪crash路径</p>
+<ul>
+<li>bt：跑出crash后查看调用路径</li>
+<li><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230708004556.png" alt="微信图片_20230708004556"></li>
+<li>报错信息<code>Program received signal SIGSEGV, Segmentation fault</code>，存在内存泄漏</li>
+<li>报错位置 <code>_int_malloc (av=av@entry=0x7ffff7c6bb80 &lt;main_arena&gt;, bytes=bytes@entry=128) at malloc.c:3679</code>，glibc报了个错，显然是堆内存出了问题</li>
+<li>执行流信息，分析一下可以看出调用过程是循环的，判断为无限循环漏洞</li>
+<li>根据函数调用找到漏洞位置</li>
+</ul>
+<p>从xpdf&#x2F;Parse.cc 96行的makeStream调用往下找发现死循环</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230708005012.png"></p>
+<h5 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h5><p>下载xpdf4.02的源码进行对比，通过加一个记录循环次数的变量，使得程序在循环一定次序之后就会结束进程，进而不会造成死循环。</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">wget https:&#x2F;&#x2F;dl.xpdfreader.com&#x2F;old&#x2F;xpdf-4.02.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
     </article>
     
     <div class="read-nums">
       <!-- id 将作为查询条件 -->
-      <span id="2023/07/06/第一篇Blog/" class="leancloud_visitors" data-flag-title="Your Article Title">
+      <span id="2023/07/07/Fuzzing101-Exercise-1-Report/" class="leancloud_visitors" data-flag-title="Your Article Title">
         <em class="post-meta-item-text">浏览量</em>
         <i class="leancloud-visitors-count"></i>
       </span>
@@ -414,20 +497,20 @@ pre:active {
     <div class="article-catelogue--wrapper">
       <div class="catelogue catelogue-1">
         <h3>目录</h3>
-        
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%B0%83%E8%AF%95%E7%9B%AE%E6%A0%87"><span class="toc-number">1.</span> <span class="toc-text">安装调试目标</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%A0%B7%E6%9C%AC"><span class="toc-number">2.</span> <span class="toc-text">获取样本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C"><span class="toc-number">3.</span> <span class="toc-text">测试安装程序运行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8fuzz%E7%BC%96%E8%AF%91%E5%99%A8%E7%BC%96%E8%AF%91"><span class="toc-number">4.</span> <span class="toc-text">使用fuzz编译器编译</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#fuzz"><span class="toc-number">5.</span> <span class="toc-text">fuzz</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95"><span class="toc-number">6.</span> <span class="toc-text">动态调试</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D"><span class="toc-number">7.</span> <span class="toc-text">漏洞修复</span></a></li></ol>
       </div>
       
         <div class="catelogue catelogue-2">
           
             <p>
               <span>上一篇：</span>
-              <a href="/2023/07/06/2023-7-6/">2023.7.6</a>
+              <a href="/2023/07/08/2023-7-7/">2023-7-7</a>
             </p>
            
           
             <p>
               <span>下一篇</span>
-              <a href="/2023/07/06/hello-world/">Hello World</a>
+              <a href="/2023/07/07/So-you-want-to-work-in-security-读后感/">So you want to work in security?读后感</a>
             </p>
           
         </div>
@@ -450,7 +533,7 @@ pre:active {
     recordIP: config.recordIP,
     visitor: config.visitor,
     enableQQ: config.enableQQ,
-    path: '2023/07/06/第一篇Blog/'
+    path: '2023/07/07/Fuzzing101-Exercise-1-Report/'
   })
 </script>
 
