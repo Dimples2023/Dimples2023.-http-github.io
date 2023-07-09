@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>我的技术与生活——2023.7.6 | Dimples的Blog</title>
+  <title>我的技术与生活——Fuzzing101-Exercise2 | Dimples的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `我的技术与生活——2023.7.6`
+    document.title = `我的技术与生活——Fuzzing101-Exercise2`
   </script>
 <meta name="generator" content="Hexo 6.3.0"></head>
 
@@ -371,7 +371,7 @@ pre:active {
 
 <div class="article-container">
   <div class="article">
-    <h1 class="article-title">2023.7.6</h1>
+    <h1 class="article-title">Fuzzing101-Exercise2</h1>
     <div class="article-info">
       <div class="article-info--item">
         <div class="article-info--info">
@@ -384,22 +384,136 @@ pre:active {
           
           <div class="article-info--tags">
             <span>标签：</span>
-            <a class="tag-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+            <a class="tag-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
           </div>
           
-          <p class="article-info--date">日期：2023-07-06 17:01:48</p>
+          <p class="article-info--date">日期：2023-07-09 22:16:17</p>
         </div>
         <img src="/imgs/default-cover.webp" alt="" class="article-cover">
       </div>
     </div>
     <article class="article-content">
-      <p>今日完成Github上博客的搭建以及调查问卷的填写</p>
+      <h4 id="下载并构建目标"><a href="#下载并构建目标" class="headerlink" title="下载并构建目标"></a>下载并构建目标</h4><p>获取模糊目标，为模糊项目创建新目录</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">cd $HOME
+mkdir fuzzing_libexif &amp;&amp; cd fuzzing_libexif&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>下载并解压缩 libexif-0.6.14</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">wget https:&#x2F;&#x2F;github.com&#x2F;libexif&#x2F;libexif&#x2F;archive&#x2F;refs&#x2F;tags&#x2F;libexif-0_6_14-release.tar.gz
+tar -xzvf libexif-0_6_14-release.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>构建并安装 libexif</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">cd libexif-libexif-0_6_14-release&#x2F;
+sudo apt-get install autopoint libtool gettext libpopt-dev
+autoreconf -fvi
+.&#x2F;configure --enable-shared&#x3D;no --prefix&#x3D;&quot;$HOME&#x2F;fuzzing_libexif&#x2F;install&#x2F;&quot;
+make
+make install<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="选择接口应用程序"><a href="#选择接口应用程序" class="headerlink" title="选择接口应用程序"></a>选择接口应用程序</h4><p>由于 libexif 是一个库，我们需要另一个利用这个库并且将被模糊处理的应用程序。对于此任务，我们将使用 <strong>exif 命令行</strong>。键入以下内容以下载和解压缩 exif 命令行 0.6.15</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">cd $HOME&#x2F;fuzzing_libexif
+wget https:&#x2F;&#x2F;github.com&#x2F;libexif&#x2F;exif&#x2F;archive&#x2F;refs&#x2F;tags&#x2F;exif-0_6_15-release.tar.gz
+tar -xzvf exif-0_6_15-release.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>构建并安装exif命令行实用程序</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">cd exif-exif-0_6_15-release&#x2F;
+autoreconf -fvi
+.&#x2F;configure --enable-shared&#x3D;no --prefix&#x3D;&quot;$HOME&#x2F;fuzzing_libexif&#x2F;install&#x2F;&quot; PKG_CONFIG_PATH&#x3D;$HOME&#x2F;fuzzing_libexif&#x2F;install&#x2F;lib&#x2F;pkgconfig
+make
+make install<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>测试是否正常工作</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">$HOME&#x2F;fuzzing_libexif&#x2F;install&#x2F;bin&#x2F;exif<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>若显示以下画面，则正常</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230709222310.png"></p>
+<h4 id="种子语料库创建"><a href="#种子语料库创建" class="headerlink" title="种子语料库创建"></a>种子语料库创建</h4><p>获取exif样本</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">cd $HOME&#x2F;fuzzing_libexif
+wget https:&#x2F;&#x2F;github.com&#x2F;ianare&#x2F;exif-samples&#x2F;archive&#x2F;refs&#x2F;heads&#x2F;master.zip
+unzip master.zip<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>执行以下操作</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">$HOME&#x2F;fuzzing_libexif&#x2F;install&#x2F;bin&#x2F;exif $HOME&#x2F;fuzzing_libexif&#x2F;exif-samples-master&#x2F;jpg&#x2F;Canon_40D_photoshop_import.jpg<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>输出应如下图所示</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230709222523.png"></p>
+<h4 id="Afl-clang-lto-instrumentation"><a href="#Afl-clang-lto-instrumentation" class="headerlink" title="Afl-clang-lto instrumentation"></a>Afl-clang-lto instrumentation</h4><p>使用 <strong>afl-clang-lto</strong> 作为编译器来构建 libexif</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">rm -r $HOME&#x2F;fuzzing_libexif&#x2F;install
+cd $HOME&#x2F;fuzzing_libexif&#x2F;libexif-libexif-0_6_14-release&#x2F;
+make clean
+export LLVM_CONFIG&#x3D;&quot;llvm-config-11&quot;
+CC&#x3D;afl-clang-lto .&#x2F;configure --enable-shared&#x3D;no --prefix&#x3D;&quot;$HOME&#x2F;fuzzing_libexif&#x2F;install&#x2F;&quot;
+make
+make install<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">cd $HOME&#x2F;fuzzing_libexif&#x2F;exif-exif-0_6_15-release
+make clean
+export LLVM_CONFIG&#x3D;&quot;llvm-config-11&quot;
+CC&#x3D;afl-clang-lto .&#x2F;configure --enable-shared&#x3D;no --prefix&#x3D;&quot;$HOME&#x2F;fuzzing_libexif&#x2F;install&#x2F;&quot; PKG_CONFIG_PATH&#x3D;$HOME&#x2F;fuzzing_libexif&#x2F;install&#x2F;lib&#x2F;pkgconfig
+make
+make install<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>使用afl-clang-lto而不是<strong>afl-clang-fast</strong>。一般来说，afl-clang-lto 是最好的选择，因为它是一种无碰撞的仪器，而且比 afl-clang-fast 更快。</p>
+<p>如下为如何选择afl-clang-lto 或 afl-clang-fast</p>
+<pre class="line-numbers language-none"><code class="language-none">+--------------------------------+
+| clang&#x2F;clang++ 11+ is available | --&gt; use LTO mode (afl-clang-lto&#x2F;afl-clang-lto++)
++--------------------------------+     see [instrumentation&#x2F;README.lto.md](instrumentation&#x2F;README.lto.md)
+    |
+    | if not, or if the target fails with LTO afl-clang-lto&#x2F;++
+    |
+    v
++---------------------------------+
+| clang&#x2F;clang++ 6.0+ is available | --&gt; use LLVM mode (afl-clang-fast&#x2F;afl-clang-fast++)
++---------------------------------+     see [instrumentation&#x2F;README.llvm.md](instrumentation&#x2F;README.llvm.md)
+    |
+    | if not, or if the target fails with LLVM afl-clang-fast&#x2F;++
+    |
+    v
+ +--------------------------------+
+ | gcc 5+ is available            | -&gt; use GCC_PLUGIN mode (afl-gcc-fast&#x2F;afl-g++-fast)
+ +--------------------------------+    see [instrumentation&#x2F;README.gcc_plugin.md](instrumentation&#x2F;README.gcc_plugin.md) and
+                                       [instrumentation&#x2F;README.instrument_list.md](instrumentation&#x2F;README.instrument_list.md)
+    |
+    | if not, or if you do not have a gcc with plugin support
+    |
+    v
+   use GCC mode (afl-gcc&#x2F;afl-g++) (or afl-clang&#x2F;afl-clang++ for clang)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="模糊测试时间"><a href="#模糊测试时间" class="headerlink" title="模糊测试时间"></a>模糊测试时间</h4><p>使用以下命令运行模糊程序</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">afl-fuzz -i $HOME&#x2F;fuzzing_libexif&#x2F;exif-samples-master&#x2F;jpg&#x2F; -o $HOME&#x2F;fuzzing_libexif&#x2F;out&#x2F; -s 123 -- $HOME&#x2F;fuzzing_libexif&#x2F;install&#x2F;bin&#x2F;exif @@<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>稍等片刻，发现多次崩溃</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230709222911.png"></p>
+<h4 id="动态调试"><a href="#动态调试" class="headerlink" title="动态调试"></a>动态调试</h4><h5 id="安装Eclipse"><a href="#安装Eclipse" class="headerlink" title="安装Eclipse"></a>安装Eclipse</h5><p>在练习 1 中，我们学习了如何使用 GDB 控制台对崩溃进行分类。在第二个练习中，我们将学习如何使用 Eclipse-CDT 进行调试。</p>
+<p>安装JAVA-SDK</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">sudo apt install default-jdk<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>下载并提取Eclipse-CDT</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">wget https:&#x2F;&#x2F;www.eclipse.org&#x2F;downloads&#x2F;download.php\?file\&#x3D;&#x2F;technology&#x2F;epp&#x2F;downloads&#x2F;release&#x2F;2021-03&#x2F;R&#x2F;eclipse-cpp-2021-03-R-linux-gtk-x86_64.tar.gz                              tar -xzvf eclipse-cpp-2021-03-R-linux-gtk-x86_64.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>一旦我们启动了Eclipse-CDT，我们需要将源代码导入到项目资源管理器中。为此，我们需要转到File -&gt; import -&gt; 然后我们需要选择 C&#x2F;C++ -&gt;“现有代码作为 makefile 项目”。然后我们需要选择“Linux GCC”并浏览Exif源代码文件夹</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230709223554.png"></p>
+<p>然后应该能够在“项目资源管理器”选项卡中看到“exif”文件夹</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230709223707.png"></p>
+<p>现在我们将配置调试参数，选择我们的 exif 项目并浏览 exif 二进制文件：<code>Run -&gt; Debug Configurations</code></p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230709223819.png"></p>
+<p>然后我们需要设置输入参数。为此，转到Arguments并设置其中一个 AFL 崩溃的路径。</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230709223952.png"></p>
+<p>最后，我们只需要点击启动调试Debug功能，程序就会在主函数的开头停止。</p>
+<p>到此，我们只需要点击Run -&gt; Resume，当检测到分段错误时，执行就会停止。</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230709224155.png"></p>
+<h4 id="修复问题"><a href="#修复问题" class="headerlink" title="修复问题"></a>修复问题</h4><p>参考以下解决方案</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/libexif/libexif/commit/8ce72b7f81e61ef69b7ad5bdfeff1516c90fa361">https://github.com/libexif/libexif/commit/8ce72b7f81e61ef69b7ad5bdfeff1516c90fa361</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/libexif/libexif/commit/00986f6fa979fe810b46e376a462c581f9746e06">https://github.com/libexif/libexif/commit/00986f6fa979fe810b46e376a462c581f9746e06</a></li>
+</ul>
 
     </article>
     
     <div class="read-nums">
       <!-- id 将作为查询条件 -->
-      <span id="2023/07/06/2023-7-6/" class="leancloud_visitors" data-flag-title="Your Article Title">
+      <span id="2023/07/09/Fuzzing101-Exercise2/" class="leancloud_visitors" data-flag-title="Your Article Title">
         <em class="post-meta-item-text">浏览量</em>
         <i class="leancloud-visitors-count"></i>
       </span>
@@ -415,20 +529,15 @@ pre:active {
     <div class="article-catelogue--wrapper">
       <div class="catelogue catelogue-1">
         <h3>目录</h3>
-        
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E5%B9%B6%E6%9E%84%E5%BB%BA%E7%9B%AE%E6%A0%87"><span class="toc-number">1.</span> <span class="toc-text">下载并构建目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%8E%A5%E5%8F%A3%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">选择接口应用程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%8D%E5%AD%90%E8%AF%AD%E6%96%99%E5%BA%93%E5%88%9B%E5%BB%BA"><span class="toc-number">3.</span> <span class="toc-text">种子语料库创建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Afl-clang-lto-instrumentation"><span class="toc-number">4.</span> <span class="toc-text">Afl-clang-lto instrumentation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E7%B3%8A%E6%B5%8B%E8%AF%95%E6%97%B6%E9%97%B4"><span class="toc-number">5.</span> <span class="toc-text">模糊测试时间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95"><span class="toc-number">6.</span> <span class="toc-text">动态调试</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Eclipse"><span class="toc-number">6.1.</span> <span class="toc-text">安装Eclipse</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E9%97%AE%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">修复问题</span></a></li></ol>
       </div>
       
         <div class="catelogue catelogue-2">
-          
-            <p>
-              <span>上一篇：</span>
-              <a href="/2023/07/07/So-you-want-to-work-in-security-读后感/">So you want to work in security?读后感</a>
-            </p>
            
           
             <p>
               <span>下一篇</span>
-              <a href="/2023/07/06/第一篇Blog/">第一篇Blog</a>
+              <a href="/2023/07/08/2023-7-7/">2023-7-7</a>
             </p>
           
         </div>
@@ -451,7 +560,7 @@ pre:active {
     recordIP: config.recordIP,
     visitor: config.visitor,
     enableQQ: config.enableQQ,
-    path: '2023/07/06/2023-7-6/'
+    path: '2023/07/09/Fuzzing101-Exercise2/'
   })
 </script>
 
