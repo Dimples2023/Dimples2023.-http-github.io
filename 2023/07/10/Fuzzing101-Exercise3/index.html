@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>我的技术与生活——log | Dimples的Blog</title>
+  <title>我的技术与生活——Fuzzing101-Exercise3 | Dimples的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `我的技术与生活——log`
+    document.title = `我的技术与生活——Fuzzing101-Exercise3`
   </script>
 <meta name="generator" content="Hexo 6.3.0"></head>
 
@@ -347,9 +347,7 @@
       <div id="main-container" class="main-container">
 
 
-  <!--  -->
-
-<style>
+  <style>
 pre::-webkit-scrollbar {
   width: 5px;
   height: 10px;
@@ -370,22 +368,169 @@ pre:active {
   background-color: rgb(81, 95, 116);
 }
 </style>
-<div class="log">
-  
-    <div class="log-item">
-      <h2 class="log-title">
-        <span>2023-07-06 14:27:19</span>
-        <span>星期四</span>
-      </h2>
-      <h1 class="log-main-title"><a href="/./log/logName.html">Log</a></h1>
-      <div class="log-wrapper false" style="max-height: 1000px;">
-        <article class="article-content"></article>
-        
+
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">Fuzzing101-Exercise3</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
+            
+          </div>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
+            <a class="tag-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
+          </div>
+          
+          <p class="article-info--date">日期：2023-07-10 11:16:29</p>
+        </div>
+        <img src="/imgs/default-cover.webp" alt="" class="article-cover">
       </div>
     </div>
-  
+    <article class="article-content">
+      <h4 id="下载并构建目标"><a href="#下载并构建目标" class="headerlink" title="下载并构建目标"></a>下载并构建目标</h4><p>获取模糊目标，为模糊项目创建目录</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">cd $HOME
+mkdir fuzzing_tcpdump &amp;&amp; cd fuzzing_tcpdump&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>下载并解压缩 tcpdump-4.9.2.tar.gz</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">wget https:&#x2F;&#x2F;github.com&#x2F;the-tcpdump-group&#x2F;tcpdump&#x2F;archive&#x2F;refs&#x2F;tags&#x2F;tcpdump-4.9.2.tar.gz
+tar -xzvf tcpdump-4.9.2.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>下载libpcap，这是TCPdump需要的跨平台库。下载并解压缩 libpcap-1.8.0.tar.gz。</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">wget https:&#x2F;&#x2F;github.com&#x2F;the-tcpdump-group&#x2F;libpcap&#x2F;archive&#x2F;refs&#x2F;tags&#x2F;libpcap-1.8.0.tar.gz
+tar -xzvf libpcap-1.8.0.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>需要重命名，否则tcpdump 找不到本地路径</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">mv libpcap-libpcap-1.8.0&#x2F; libpcap-1.8.0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>构建并安装 libpcap</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">cd $HOME&#x2F;fuzzing_tcpdump&#x2F;libpcap-1.8.0&#x2F;
+.&#x2F;configure --enable-shared&#x3D;no
+make<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>测试是否正常</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">$HOME&#x2F;fuzzing_tcpdump&#x2F;install&#x2F;sbin&#x2F;tcpdump -h<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>若出现以下画面则正常</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230710112117.png"></p>
+<h4 id="创建种子语料库"><a href="#创建种子语料库" class="headerlink" title="创建种子语料库"></a>创建种子语料库</h4><p>可以在“.&#x2F;tests”文件夹中找到很多.pcacp示例，使用以下命令运行这些 .pcap 文件</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">$HOME&#x2F;fuzzing_tcpdump&#x2F;install&#x2F;sbin&#x2F;tcpdump -vvvvXX -ee -nn -r [.pcap file]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>例如</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">$HOME&#x2F;fuzzing_tcpdump&#x2F;install&#x2F;sbin&#x2F;tcpdump -vvvvXX -ee -nn -r .&#x2F;tests&#x2F;geneve.pcap<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>输出如下图所示</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230710112352.png"></p>
+<h4 id="在启用-ASan-的情况下构建"><a href="#在启用-ASan-的情况下构建" class="headerlink" title="在启用 ASan 的情况下构建"></a>在启用 ASan 的情况下构建</h4><p>现在我们将在启用 ASAN 的情况下构建 tcpdump（和 libpcap）。</p>
+<p>首先清理所有以前编译的对象文件和可执行文件</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">rm -r $HOME&#x2F;fuzzing_tcpdump&#x2F;install
+cd $HOME&#x2F;fuzzing_tcpdump&#x2F;libpcap-1.8.0&#x2F;
+make clean
+
+cd $HOME&#x2F;fuzzing_tcpdump&#x2F;tcpdump-tcpdump-4.9.2&#x2F;
+make clean<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>使用ASan编译</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">cd $HOME&#x2F;fuzzing_tcpdump&#x2F;libpcap-1.8.0&#x2F;
+export LLVM_CONFIG&#x3D;&quot;llvm-config-11&quot;
+CC&#x3D;afl-clang-lto .&#x2F;configure --enable-shared&#x3D;no --prefix&#x3D;&quot;$HOME&#x2F;fuzzing_tcpdump&#x2F;install&#x2F;&quot;
+AFL_USE_ASAN&#x3D;1 make
+
+cd $HOME&#x2F;fuzzing_tcpdump&#x2F;tcpdump-tcpdump-4.9.2&#x2F;
+AFL_USE_ASAN&#x3D;1 CC&#x3D;afl-clang-lto .&#x2F;configure --prefix&#x3D;&quot;$HOME&#x2F;fuzzing_tcpdump&#x2F;install&#x2F;&quot;
+AFL_USE_ASAN&#x3D;1 make
+AFL_USE_ASAN&#x3D;1 make install<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>进行模糊测试</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">afl-fuzz -m none -i $HOME&#x2F;fuzzing_tcpdump&#x2F;tcpdump-tcpdump-4.9.2&#x2F;tests&#x2F; -o $HOME&#x2F;fuzzing_tcpdump&#x2F;out&#x2F; -s 123 -- $HOME&#x2F;fuzzing_tcpdump&#x2F;install&#x2F;sbin&#x2F;tcpdump -vvvvXX -ee -nn -r @@<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>运行6个小时后也没有出现crash，目前并不知道是哪里出了问题，日后找到解决方法后再继续进行实验</p>
+<h4 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h4><h4 id="修复崩溃"><a href="#修复崩溃" class="headerlink" title="修复崩溃"></a>修复崩溃</h4><p>官方修复方案</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/the-tcpdump-group/tcpdump/commit/85078eeaf4bf8fcdc14a4e79b516f92b6ab520fc#diff-05f854a9033643de07f0d0059bc5b98f3b314eeb1e2499ea1057e925e6501ae8L381">https://github.com/the-tcpdump-group/tcpdump/commit/85078eeaf4bf8fcdc14a4e79b516f92b6ab520fc#diff-05f854a9033643de07f0d0059bc5b98f3b314eeb1e2499ea1057e925e6501ae8L381</a></li>
+</ul>
+
+    </article>
+    
+    <div class="read-nums">
+      <!-- id 将作为查询条件 -->
+      <span id="2023/07/10/Fuzzing101-Exercise3/" class="leancloud_visitors" data-flag-title="Your Article Title">
+        <em class="post-meta-item-text">浏览量</em>
+        <i class="leancloud-visitors-count"></i>
+      </span>
+    </div>
+    <div class="comments-intro">
+      <h2>评论区</h2>
+      <p>欢迎你留下宝贵的意见，昵称输入QQ号会显示QQ头像哦~</p>
+    </div>
+    <div id="vcomments" class="vcomments"></div>
+    
+  </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E5%B9%B6%E6%9E%84%E5%BB%BA%E7%9B%AE%E6%A0%87"><span class="toc-number">1.</span> <span class="toc-text">下载并构建目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%A7%8D%E5%AD%90%E8%AF%AD%E6%96%99%E5%BA%93"><span class="toc-number">2.</span> <span class="toc-text">创建种子语料库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8%E5%90%AF%E7%94%A8-ASan-%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%E6%9E%84%E5%BB%BA"><span class="toc-number">3.</span> <span class="toc-text">在启用 ASan 的情况下构建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%83%E8%AF%95"><span class="toc-number">4.</span> <span class="toc-text">调试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%B4%A9%E6%BA%83"><span class="toc-number">5.</span> <span class="toc-text">修复崩溃</span></a></li></ol>
+      </div>
+      
+        <div class="catelogue catelogue-2">
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2023/07/09/Fuzzing101-Exercise2/">Fuzzing101-Exercise2</a>
+            </p>
+          
+        </div>
+      
+    </div>
+  </div>
 </div>
 
+<script src="http://cdn.yangxiang.cc/prism.js"></script>
+
+<script>
+  // var定义，避免pjax重新进来造成的重复声明错误
+  var config = JSON.parse('{"enable":true,"appId":"Pf8zCXGEH1qsprnWfikVVujL-gzGzoHsz","appKey":"qOqoiUHhH1TGtLRUYURkLRQX","placeholder":"请留下你宝贵的意见吧~","meta":["nick"],"recordIP":true,"visitor":true,"enableQQ":true}')
+  new Valine({
+    el: '#vcomments',
+    appId: config.appId,
+    appKey: config.appKey,
+    placeholder: config.placeholder,
+    meta: config.meta,
+    recordIP: config.recordIP,
+    visitor: config.visitor,
+    enableQQ: config.enableQQ,
+    path: '2023/07/10/Fuzzing101-Exercise3/'
+  })
+</script>
+
+
+<script>
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
+</script> 
 
 </div>
       <div class="main-right-wrapper"><div class="main-right">
