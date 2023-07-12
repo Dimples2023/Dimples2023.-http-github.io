@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>我的技术与生活——2023-7-7 | Dimples的Blog</title>
+  <title>我的技术与生活——Fuzzing101-Exercise4 | Dimples的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `我的技术与生活——2023-7-7`
+    document.title = `我的技术与生活——Fuzzing101-Exercise4`
   </script>
 <meta name="generator" content="Hexo 6.3.0"></head>
 
@@ -371,7 +371,7 @@ pre:active {
 
 <div class="article-container">
   <div class="article">
-    <h1 class="article-title">2023-7-7</h1>
+    <h1 class="article-title">Fuzzing101-Exercise4</h1>
     <div class="article-info">
       <div class="article-info--item">
         <div class="article-info--info">
@@ -384,22 +384,97 @@ pre:active {
           
           <div class="article-info--tags">
             <span>标签：</span>
-            <a class="tag-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+            <a class="tag-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
           </div>
           
-          <p class="article-info--date">日期：2023-07-08 01:10:06</p>
+          <p class="article-info--date">日期：2023-07-11 14:36:58</p>
         </div>
         <img src="/imgs/default-cover.webp" alt="" class="article-cover">
       </div>
     </div>
     <article class="article-content">
-      <p>今日完成对“So you want to work in security ?”的读后感，并且配置好了Fuzzing实验环境。</p>
+      <h4 id="下载并构建目标"><a href="#下载并构建目标" class="headerlink" title="下载并构建目标"></a>下载并构建目标</h4><p>获取模糊目标，为其创建新目录</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">cd $HOME
+mkdir fuzzing_tiff &amp;&amp; cd fuzzing_tiff&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>下载并解压缩 <strong>libtiff 4.0.4</strong></p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">wget https:&#x2F;&#x2F;download.osgeo.org&#x2F;libtiff&#x2F;tiff-4.0.4.tar.gz
+tar -xzvf tiff-4.0.4.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>构建并安装<strong>libtiff</strong></p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">cd tiff-4.0.4&#x2F;
+.&#x2F;configure --prefix&#x3D;&quot;$HOME&#x2F;fuzzing_tiff&#x2F;install&#x2F;&quot; --disable-shared
+make
+make install<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>测试是否正常</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">$HOME&#x2F;fuzzing_tiff&#x2F;install&#x2F;bin&#x2F;tiffinfo -D -j -c -r -s -w $HOME&#x2F;fuzzing_tiff&#x2F;tiff-4.0.4&#x2F;test&#x2F;images&#x2F;palette-1c-1b.tiff<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>第一行命令中的“-j -c -r -s -w”目的是提高<strong>代码覆盖率</strong>并增加发现错误的机会</p>
+<p>若出现以下画面则正常</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230711133856.png"></p>
+<h4 id="代码覆盖率"><a href="#代码覆盖率" class="headerlink" title="代码覆盖率"></a>代码覆盖率</h4><p><strong>代码覆盖率</strong>是一个软件指标，显示每行代码被触发的次数</p>
+<p>安装<strong>lcov</strong></p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">sudo apt install lcov<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>重建<strong>libtiff</strong></p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">rm -r $HOME&#x2F;fuzzing_tiff&#x2F;install
+cd $HOME&#x2F;fuzzing_tiff&#x2F;tiff-4.0.4&#x2F;
+make clean
+
+CFLAGS&#x3D;&quot;--coverage&quot; LDFLAGS&#x3D;&quot;--coverage&quot; .&#x2F;configure --prefix&#x3D;&quot;$HOME&#x2F;fuzzing_tiff&#x2F;install&#x2F;&quot; --disable-shared
+make
+make install<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>收集代码覆盖率数据</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">cd $HOME&#x2F;fuzzing_tiff&#x2F;tiff-4.0.4&#x2F;
+lcov --zerocounters --directory .&#x2F;
+lcov --capture --initial --directory .&#x2F; --output-file app.info
+$HOME&#x2F;fuzzing_tiff&#x2F;install&#x2F;bin&#x2F;tiffinfo -D -j -c -r -s -w $HOME&#x2F;fuzzing_tiff&#x2F;tiff-4.0.4&#x2F;test&#x2F;images&#x2F;palette-1c-1b.tiff
+lcov --no-checksum --directory .&#x2F; --capture --output-file app2.info<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>对命令的解释：</p>
+<ul>
+<li><code>lcov --zerocounters --directory ./</code>：重置以前的计数器</li>
+<li><code>lcov --capture --initial --directory ./ --output-file app.info</code>：返回“基线”覆盖率数据文件，其中包含每个检测行的零覆盖率</li>
+<li><code>$HOME/fuzzing_tiff/install/bin/tiffinfo -D -j -c -r -s -w $HOME/fuzzing_tiff/tiff-4.0.4/test/images/palette-1c-1b.tiff</code>：运行要分析的应用程序。您可以使用不同的输入多次运行它</li>
+<li><code>lcov --no-checksum --directory ./ --capture --output-file app2.info</code>：将当前覆盖状态保存到 app2.info 文件中</li>
+</ul>
+<p>生成HTML输出</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">genhtml --highlight --legend -output-directory .&#x2F;html-coverage&#x2F; .&#x2F;app2.info<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>打开代码覆盖率报告，将显示以下内容</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230711141550.png"></p>
+<h4 id="Fuzz"><a href="#Fuzz" class="headerlink" title="Fuzz"></a>Fuzz</h4><p>清理所有以前编译的对象文件和可执行文件</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">rm -r $HOME&#x2F;fuzzing_tiff&#x2F;install
+cd $HOME&#x2F;fuzzing_tiff&#x2F;tiff-4.0.4&#x2F;
+make clean<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>设置AFL_USE_ASAN&#x3D;1</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">export LLVM_CONFIG&#x3D;&quot;llvm-config-11&quot;
+CC&#x3D;afl-clang-lto .&#x2F;configure --prefix&#x3D;&quot;$HOME&#x2F;fuzzing_tiff&#x2F;install&#x2F;&quot; --disable-shared
+AFL_USE_ASAN&#x3D;1 make -j4
+AFL_USE_ASAN&#x3D;1 make install<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>fuzz</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">afl-fuzz -m none -i $HOME&#x2F;fuzzing_tiff&#x2F;tiff-4.0.4&#x2F;test&#x2F;images&#x2F; -o $HOME&#x2F;fuzzing_tiff&#x2F;out&#x2F; -s 123 -- $HOME&#x2F;fuzzing_tiff&#x2F;install&#x2F;bin&#x2F;tiffinfo -D -j -c -r -s -w @@<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>稍等片刻，发现崩溃</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230711143211.png"></p>
+<h4 id="动态调试"><a href="#动态调试" class="headerlink" title="动态调试"></a>动态调试</h4><pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">.&#x2F;install&#x2F;bin&#x2F;tiffinfo -D -j -c -r -s -w .&#x2F;out&#x2F;default&#x2F;crashes&#x2F;id:000000,sig:06,src:000000,time:1013,execs:1030,op:havoc,rep:1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>发现堆溢出</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230711143441.png"></p>
+<h4 id="修复问题"><a href="#修复问题" class="headerlink" title="修复问题"></a>修复问题</h4><p>官方修复方案</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/vadz/libtiff/commit/30c9234c7fd0dd5e8b1e83ad44370c875a0270ed">https://github.com/vadz/libtiff/commit/30c9234c7fd0dd5e8b1e83ad44370c875a0270ed</a></li>
+</ul>
 
     </article>
     
     <div class="read-nums">
       <!-- id 将作为查询条件 -->
-      <span id="2023/07/08/2023-7-7/" class="leancloud_visitors" data-flag-title="Your Article Title">
+      <span id="2023/07/11/Fuzzing101-Exercise4/" class="leancloud_visitors" data-flag-title="Your Article Title">
         <em class="post-meta-item-text">浏览量</em>
         <i class="leancloud-visitors-count"></i>
       </span>
@@ -415,20 +490,15 @@ pre:active {
     <div class="article-catelogue--wrapper">
       <div class="catelogue catelogue-1">
         <h3>目录</h3>
-        
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E5%B9%B6%E6%9E%84%E5%BB%BA%E7%9B%AE%E6%A0%87"><span class="toc-number">1.</span> <span class="toc-text">下载并构建目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%A6%86%E7%9B%96%E7%8E%87"><span class="toc-number">2.</span> <span class="toc-text">代码覆盖率</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Fuzz"><span class="toc-number">3.</span> <span class="toc-text">Fuzz</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95"><span class="toc-number">4.</span> <span class="toc-text">动态调试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E9%97%AE%E9%A2%98"><span class="toc-number">5.</span> <span class="toc-text">修复问题</span></a></li></ol>
       </div>
       
         <div class="catelogue catelogue-2">
-          
-            <p>
-              <span>上一篇：</span>
-              <a href="/2023/07/09/Fuzzing101-Exercise2/">Fuzzing101-Exercise2</a>
-            </p>
            
           
             <p>
               <span>下一篇</span>
-              <a href="/2023/07/07/Fuzzing101-Exercise1/">Fuzzing101-Exercise1</a>
+              <a href="/2023/07/10/Fuzzing101-Exercise3/">Fuzzing101-Exercise3</a>
             </p>
           
         </div>
@@ -451,7 +521,7 @@ pre:active {
     recordIP: config.recordIP,
     visitor: config.visitor,
     enableQQ: config.enableQQ,
-    path: '2023/07/08/2023-7-7/'
+    path: '2023/07/11/Fuzzing101-Exercise4/'
   })
 </script>
 
