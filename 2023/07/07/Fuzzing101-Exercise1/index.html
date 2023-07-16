@@ -193,7 +193,7 @@
   const ipt = document.querySelector('#search-input')
   const btn = document.querySelector('#search-btn')
   const layer = document.querySelector('#search-layer')
-  const posts = JSON.parse(`[{"title":"Hello World","path":"2023/07/06/hello-world/"},{"title":"第一篇Blog","path":"2023/07/06/第一篇Blog/"},{"title":"2023.7.6","path":"2023/07/06/2023-7-6/"},{"title":"So you want to work in security?读后感","path":"2023/07/07/So-you-want-to-work-in-security-读后感/"},{"title":"2023-7-7","path":"2023/07/08/2023-7-7/"},{"title":"Fuzzing101-Exercise1","path":"2023/07/07/Fuzzing101-Exercise1/"},{"title":"Fuzzing101-Exercise2","path":"2023/07/09/Fuzzing101-Exercise2/"},{"title":"Fuzzing101-Exercise3","path":"2023/07/10/Fuzzing101-Exercise3/"},{"title":"Fuzzing101-Exercise4","path":"2023/07/11/Fuzzing101-Exercise4/"},{"title":"Fuzzing101-Exercise5","path":"2023/07/13/Fuzzing101-Exercise5/"}]`)
+  const posts = JSON.parse(`[{"title":"Hello World","path":"2023/07/06/hello-world/"},{"title":"第一篇Blog","path":"2023/07/06/第一篇Blog/"},{"title":"2023.7.6","path":"2023/07/06/2023-7-6/"},{"title":"So you want to work in security?读后感","path":"2023/07/07/So-you-want-to-work-in-security-读后感/"},{"title":"2023-7-7","path":"2023/07/08/2023-7-7/"},{"title":"Fuzzing101-Exercise1","path":"2023/07/07/Fuzzing101-Exercise1/"},{"title":"Fuzzing101-Exercise2","path":"2023/07/09/Fuzzing101-Exercise2/"},{"title":"Fuzzing101-Exercise3","path":"2023/07/10/Fuzzing101-Exercise3/"},{"title":"Fuzzing101-Exercise4","path":"2023/07/11/Fuzzing101-Exercise4/"},{"title":"Fuzzing101-Exercise5","path":"2023/07/13/Fuzzing101-Exercise5/"},{"title":"Fuzzing101-Exercise6","path":"2023/07/14/Fuzzing101-Exercise6/"},{"title":"How to give a good research talk","path":"2023/07/15/How to give a good research talk /"}]`)
   ipt.addEventListener('keyup', e => {
     if (e.key === 'Enter') {
       handleSearch()
@@ -327,7 +327,7 @@
       </h5>
       <p class="main-left--subtitle">
         <span>文章数目：</span>
-        <span>10 篇</span>
+        <span>12 篇</span>
       </p>
       <p class="main-left--subtitle">
         <span>最近动态：</span>
@@ -335,7 +335,7 @@
       </p>
       <p class="main-left--subtitle">
         <span>上线时间：</span>
-        <span>9天</span>
+        <span>11天</span>
       </p>
       <p class="main-left--subtitle">
         <span>当前版本：</span>
@@ -476,6 +476,7 @@ make install<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
 <h5 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h5><p>下载xpdf4.02的源码进行对比，通过加一个记录循环次数的变量，使得程序在循环一定次序之后就会结束进程，进而不会造成死循环。</p>
 <pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">wget https:&#x2F;&#x2F;dl.xpdfreader.com&#x2F;old&#x2F;xpdf-4.02.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p>学会了编译目标应用程序，运行afl-fuzz并且使用GDB对崩溃进行调试</p>
 
     </article>
     
@@ -497,7 +498,7 @@ make install<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
     <div class="article-catelogue--wrapper">
       <div class="catelogue catelogue-1">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%B0%83%E8%AF%95%E7%9B%AE%E6%A0%87"><span class="toc-number">1.</span> <span class="toc-text">安装调试目标</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%A0%B7%E6%9C%AC"><span class="toc-number">2.</span> <span class="toc-text">获取样本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C"><span class="toc-number">3.</span> <span class="toc-text">测试安装程序运行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8fuzz%E7%BC%96%E8%AF%91%E5%99%A8%E7%BC%96%E8%AF%91"><span class="toc-number">4.</span> <span class="toc-text">使用fuzz编译器编译</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#fuzz"><span class="toc-number">5.</span> <span class="toc-text">fuzz</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95"><span class="toc-number">6.</span> <span class="toc-text">动态调试</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D"><span class="toc-number">7.</span> <span class="toc-text">漏洞修复</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%B0%83%E8%AF%95%E7%9B%AE%E6%A0%87"><span class="toc-number">1.</span> <span class="toc-text">安装调试目标</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%A0%B7%E6%9C%AC"><span class="toc-number">2.</span> <span class="toc-text">获取样本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C"><span class="toc-number">3.</span> <span class="toc-text">测试安装程序运行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8fuzz%E7%BC%96%E8%AF%91%E5%99%A8%E7%BC%96%E8%AF%91"><span class="toc-number">4.</span> <span class="toc-text">使用fuzz编译器编译</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#fuzz"><span class="toc-number">5.</span> <span class="toc-text">fuzz</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95"><span class="toc-number">6.</span> <span class="toc-text">动态调试</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D"><span class="toc-number">7.</span> <span class="toc-text">漏洞修复</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a></li></ol>
       </div>
       
         <div class="catelogue catelogue-2">
