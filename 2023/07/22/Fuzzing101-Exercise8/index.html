@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>我的技术与生活——Fuzzing101-Exercise7 | Dimples的Blog</title>
+  <title>我的技术与生活——Fuzzing101-Exercise8 | Dimples的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `我的技术与生活——Fuzzing101-Exercise7`
+    document.title = `我的技术与生活——Fuzzing101-Exercise8`
   </script>
 <meta name="generator" content="Hexo 6.3.0"></head>
 
@@ -371,7 +371,7 @@ pre:active {
 
 <div class="article-container">
   <div class="article">
-    <h1 class="article-title">Fuzzing101-Exercise7</h1>
+    <h1 class="article-title">Fuzzing101-Exercise8</h1>
     <div class="article-info">
       <div class="article-info--item">
         <div class="article-info--info">
@@ -387,57 +387,85 @@ pre:active {
             <a class="tag-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
           </div>
           
-          <p class="article-info--date">日期：2023-07-16 19:09:18</p>
+          <p class="article-info--date">日期：2023-07-22 21:19:53</p>
         </div>
         <img src="/imgs/default-cover.webp" alt="" class="article-cover">
       </div>
     </div>
     <article class="article-content">
-      <h3 id="未完"><a href="#未完" class="headerlink" title="未完"></a>未完</h3><h4 id="下载目标"><a href="#下载目标" class="headerlink" title="下载目标"></a>下载目标</h4><p>获取模糊目标，为要模糊的项目创建一个新目录</p>
-<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">cd $HOME
-mkdir fuzzing_vlc &amp;&amp; cd fuzzing_vlc<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+      <h3 id="未完"><a href="#未完" class="headerlink" title="未完"></a>未完</h3><h4 id="安装QEMU"><a href="#安装QEMU" class="headerlink" title="安装QEMU"></a>安装QEMU</h4><p>下载并安装QEMU</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo apt install ninja-build libc6-dev-i386
+cd &#x2F;home&#x2F;lbj&#x2F;AFLplusplus&#x2F;qemu_mode&#x2F;
+CPU_TARGET&#x3D;i386 .&#x2F;build_qemu_support.sh
+sudo cp &#39;&#x2F;home&#x2F;lbj&#x2F;AFLplusplus&#x2F;afl-qemu-trace&#39; &#x2F;usr&#x2F;local&#x2F;bin&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p>下载需要依赖</p>
-<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev pkg-config libxcb-composite0-dev libxcb-xv0-dev libxcb-randr0-dev libasound2-dev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>检查是否安装完成</p>
+<pre class="line-numbers language-none"><code class="language-none">afl-qemu-trace --help<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<p>下载并解压缩 <code>vlc-3.0.7.1.tar.xz</code></p>
-<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">wget https:&#x2F;&#x2F;download.videolan.org&#x2F;pub&#x2F;videolan&#x2F;vlc&#x2F;3.0.7.1&#x2F;vlc-3.0.7.1.tar.xz
-tar -xvf vlc-3.0.7.1.tar.xz &amp;&amp; cd vlc-3.0.7.1&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>出现以下画面则成功安装</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230722164800.png"></p>
+<h3 id="安装-Adobe-Reader"><a href="#安装-Adobe-Reader" class="headerlink" title="安装 Adobe Reader"></a>安装 Adobe Reader</h3><p>安装依赖项</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo apt-get install libxml2:i386<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h4 id="构建VLC"><a href="#构建VLC" class="headerlink" title="构建VLC"></a>构建VLC</h4><p>构建并安装<code>vlc-3.0.7.1</code></p>
-<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">.&#x2F;configure --prefix&#x3D;&quot;$HOME&#x2F;fuzzing_vlc&#x2F;vlc-3.0.7.1&#x2F;install&quot; --disable-a52 --disable-lua --disable-qt
-make -j$(nproc)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>下载并解压缩：<code>AdbeRdr9.5.1-1_i386linux_enu.deb</code></p>
+<pre class="line-numbers language-none"><code class="language-none">![微信图片_20230722165845](C:&#x2F;Users&#x2F;27783&#x2F;Desktop&#x2F;微信图片_20230722165845.png)wget ftp:&#x2F;&#x2F;ftp.adobe.com&#x2F;pub&#x2F;adobe&#x2F;reader&#x2F;unix&#x2F;9.x&#x2F;9.5.1&#x2F;enu&#x2F;AdbeRdr9.5.1-1_i386linux_enu.deb<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<p>测试是否正常</p>
-<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">.&#x2F;bin&#x2F;vlc-static --help<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>安装<code>AdbeRdr9.5.1-1_i386linux_enu.deb</code></p>
+<pre class="line-numbers language-none"><code class="language-none">sudo dpkg -i AdbeRdr9.5.1-1_i386linux_enu.deb<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<p>出现以下画面则表明正常</p>
-<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230722115718.png"></p>
-<h4 id="创建种子语料库"><a href="#创建种子语料库" class="headerlink" title="创建种子语料库"></a>创建种子语料库</h4><p>创建<code>afl_in</code>文件夹作为输入文件夹，并将 [short2.wmv](<a target="_blank" rel="noopener" href="https://github.com/antonio-morales/Fuzzing101/blob/main/Exercise">https://github.com/antonio-morales/Fuzzing101/blob/main/Exercise</a> 7&#x2F;InputCorpus&#x2F;short2.wmv) 和 [veryshort.wmv](<a target="_blank" rel="noopener" href="https://github.com/antonio-morales/Fuzzing101/blob/main/Exercise">https://github.com/antonio-morales/Fuzzing101/blob/main/Exercise</a> 7&#x2F;InputCorpus&#x2F;veryshort.wmv)复制到其中</p>
-<h4 id="部分检测"><a href="#部分检测" class="headerlink" title="部分检测"></a>部分检测</h4><p>将[部分检测文件](<a target="_blank" rel="noopener" href="https://github.com/antonio-morales/Fuzzing101/blob/main/Exercise">https://github.com/antonio-morales/Fuzzing101/blob/main/Exercise</a> 7&#x2F;Partial_instrumentation)放到<code>vlc-3.0.7.1/</code>目录下</p>
-<h4 id="加快速度"><a href="#加快速度" class="headerlink" title="加快速度"></a>加快速度</h4><p>为了加快 ASF 模糊测试速度，将[补丁文件](<a target="_blank" rel="noopener" href="https://github.com/antonio-morales/Fuzzing101/blob/main/Exercise">https://github.com/antonio-morales/Fuzzing101/blob/main/Exercise</a> 7&#x2F;speedup.patch)应用于<code>modules/demux/asf/libasf.c</code></p>
-<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">patch -p0 libasf.c speedup.patch<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>运行以下命令</p>
+<pre class="line-numbers language-none"><code class="language-none">.&#x2F;opt&#x2F;Adobe&#x2F;Reader9&#x2F;bin&#x2F;acroread<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h4 id="Fuzz"><a href="#Fuzz" class="headerlink" title="Fuzz"></a>Fuzz</h4><p>使用 <strong>afl-clang-fast</strong> 作为编译器并启用 <strong>ASAN</strong> 构建 VLC </p>
-<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">CC&#x3D;&quot;afl-clang-fast&quot; CXX&#x3D;&quot;afl-clang-fast++&quot; .&#x2F;configure --prefix&#x3D;&quot;$HOME&#x2F;fuzzing_vlc&#x2F;vlc-3.0.7.1&#x2F;install&quot; --disable-a52 --disable-lua --disable-qt --with-sanitizer&#x3D;address
-AFL_LLVM_ALLOWLIST&#x3D;$HOME&#x2F;fuzzing_vlc&#x2F;vlc-3.0.7.1&#x2F;Partial_instrumentation make -j$(nproc) LDFLAGS&#x3D;&quot;-fsanitize&#x3D;address&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>接受许可协议后，应看到 Adobe Reader 界面</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230722165845.png" alt="微信图片_20230722165845"></p>
+<h4 id="创建种子语料库"><a href="#创建种子语料库" class="headerlink" title="创建种子语料库"></a>创建种子语料库</h4><p>下载并解压缩语料库</p>
+<pre class="line-numbers language-none"><code class="language-none">wget https:&#x2F;&#x2F;corpora.tika.apache.org&#x2F;base&#x2F;packaged&#x2F;pdfs&#x2F;archive&#x2F;pdfs_202002&#x2F;libre_office.zip
+unzip libre_office.zip -d extracted<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-<p>构建模糊测试工具</p>
-<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">cd test
-make vlc-demux-run -j$(nproc) LDFLAGS&#x3D;&quot;-fsanitize&#x3D;address&quot;
-cd ..  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>仅复制<strong>小于 2 kB</strong> 的文件，以加快模糊测试过程</p>
+<pre class="line-numbers language-none"><code class="language-none">mkdir -p $HOME&#x2F;fuzzing_adobe&#x2F;afl_in
+find .&#x2F;extracted -type f -size -2k \
+    -exec cp &#123;&#125; $HOME&#x2F;fuzzing_adobe&#x2F;afl_in \;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-<p>fuzz</p>
-<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">afl-fuzz -t 100 -m none -i &#39;.&#x2F;afl_in&#39; -o &#39;.&#x2F;afl_out&#39; -x asf_dictionary.dict -D -M master -- .&#x2F;test&#x2F;vlc-demux-run @@  <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="Fuzz"><a href="#Fuzz" class="headerlink" title="Fuzz"></a>Fuzz</h4><h5 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h5><p>使用 <code>-Q</code> 参数运行 <code>afl-fuzz</code></p>
+<pre class="line-numbers language-none"><code class="language-none">ACRO_INSTALL_DIR&#x3D;&#x2F;opt&#x2F;Adobe&#x2F;Reader9&#x2F;Reader ACRO_CONFIG&#x3D;intellinux LD_LIBRARY_PATH&#x3D;$LD_LIBRARY_PATH:&#39;&#x2F;opt&#x2F;Adobe&#x2F;Reader9&#x2F;Reader&#x2F;intellinux&#x2F;lib&#39; afl-fuzz -Q -i .&#x2F;afl_in&#x2F; -o .&#x2F;afl_out&#x2F; -t 2000 -- &#x2F;opt&#x2F;Adobe&#x2F;Reader9&#x2F;Reader&#x2F;intellinux&#x2F;bin&#x2F;acroread -toPostScript @@<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<p>等待出现崩溃</p>
-<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230722115721.png"></p>
+<p>运行 afl-fuzz 时需要小心，因为它是一个 shell 脚本，真正的二进制路径如下：<code>/opt/Adobe/Reader9/bin/acroread``/opt/Adobe/Reader9/Reader/intellinux/bin/acroread</code></p>
+<p>可以看到AFL++运行</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230722171816.png"></p>
+<p>但模糊测试的速度比较慢，因此接下来使用<strong>持久模式</strong></p>
+<h5 id="持久模式"><a href="#持久模式" class="headerlink" title="持久模式"></a>持久模式</h5><p>与实验6中，通过插入 <code>AFL_LOOP</code> 的方法启用持久模式不同，在本实验中，由于无法访问源码，所以使用 <code>AFL_QEMU_PERSISTENT_ADDR</code> 来指定持久循环的开始，使用持久模式。建议将此地址设置为函数的开头</p>
+<p>安装 <code>valgrind</code> 和 <code>kcachegrind</code></p>
+<pre class="line-numbers language-none"><code class="language-none">sudo apt-get install valgrind
+sudo apt-get install kcachegrind<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>生成一个报告</p>
+<pre class="line-numbers language-none"><code class="language-none">ACRO_INSTALL_DIR&#x3D;&#x2F;opt&#x2F;Adobe&#x2F;Reader9&#x2F;Reader ACRO_CONFIG&#x3D;intellinux LD_LIBRARY_PATH&#x3D;$LD_LIBRARY_PATH:&#39;&#x2F;opt&#x2F;Adobe&#x2F;Reader9&#x2F;Reader&#x2F;intellinux&#x2F;lib&#39; valgrind --tool&#x3D;callgrind &#x2F;opt&#x2F;Adobe&#x2F;Reader9&#x2F;Reader&#x2F;intellinux&#x2F;bin&#x2F;acroread -toPostScript [samplePDF]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>其中<code>samplePDF</code>是 PDF 示例的路径。将在当前的文件夹中生成一个输出文件<code>callgrind.out</code>。现在，我们可以使用以下命令可视化运行 <strong>kachegrind</strong> 的此报表</p>
+<pre class="line-numbers language-none"><code class="language-none">kcachegrind <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>将显示以下画面</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230722172429.png"></p>
+<p>查看 <code>kcachegrind</code> 中的字段，以识别仅执行 1 次的函数，并尝试在 afl-fuzz 中实现超过 <strong>90% 的稳定性</strong></p>
+<p>经过多次尝试，最终选择地址为的函数</p>
+<p>进行fuzz</p>
+<pre class="line-numbers language-none"><code class="language-none">AFL_QEMU_PERSISTENT_ADDR&#x3D;0x085478AC AFL_QEMU_PERSISTENT_GPR&#x3D;1 ACRO_INSTALL_DIR&#x3D;&#x2F;opt&#x2F;Adobe&#x2F;Reader9&#x2F;Reader ACRO_CONFIG&#x3D;intellinux LD_LIBRARY_PATH&#x3D;$LD_LIBRARY_PATH:&#39;&#x2F;opt&#x2F;Adobe&#x2F;Reader9&#x2F;Reader&#x2F;intellinux&#x2F;lib&#39; afl-fuzz -Q -i &#x2F;home&#x2F;lbj&#x2F;fuzzing_adobe&#x2F;afl_in&#x2F; -o .&#x2F;afl_out&#x2F; -t 2000 -- &#x2F;opt&#x2F;Adobe&#x2F;Reader9&#x2F;Reader&#x2F;intellinux&#x2F;bin&#x2F;acroread -toPostScript @@<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>可以发现运行速度显著提升</p>
+<h4 id="检查"><a href="#检查" class="headerlink" title="检查"></a>检查</h4><pre class="line-numbers language-none"><code class="language-none">AFL_USE_QASAN&#x3D;1 ACRO_INSTALL_DIR&#x3D;&#x2F;opt&#x2F;Adobe&#x2F;Reader9&#x2F;Reader ACRO_CONFIG&#x3D;intellinux LD_LIBRARY_PATH&#x3D;$LD_LIBRARY_PATH:&#39;&#x2F;opt&#x2F;Adobe&#x2F;Reader9&#x2F;Reader&#x2F;intellinux&#x2F;lib&#39; &#x2F;usr&#x2F;local&#x2F;bin&#x2F;afl-qemu-trace -- &#x2F;opt&#x2F;Adobe&#x2F;Reader9&#x2F;Reader&#x2F;intellinux&#x2F;bin&#x2F;acroread -toPostScript [crashFilePath] <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><code>crashFilePath</code>为崩溃文件的路径</p>
+<p>明明路径下有<code>libqasan.so</code></p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230722214513.png"></p>
+<p>但仍然显示无法找到该文件，尚不知原因</p>
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGo%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230722211415.png"></p>
 
     </article>
     
     <div class="read-nums">
       <!-- id 将作为查询条件 -->
-      <span id="2023/07/16/Fuzzing101-Exercise7/" class="leancloud_visitors" data-flag-title="Your Article Title">
+      <span id="2023/07/22/Fuzzing101-Exercise8/" class="leancloud_visitors" data-flag-title="Your Article Title">
         <em class="post-meta-item-text">浏览量</em>
         <i class="leancloud-visitors-count"></i>
       </span>
@@ -453,20 +481,20 @@ cd ..  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></s
     <div class="article-catelogue--wrapper">
       <div class="catelogue catelogue-1">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AA%E5%AE%8C"><span class="toc-number">1.</span> <span class="toc-text">未完</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E7%9B%AE%E6%A0%87"><span class="toc-number">1.1.</span> <span class="toc-text">下载目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%84%E5%BB%BAVLC"><span class="toc-number">1.2.</span> <span class="toc-text">构建VLC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%A7%8D%E5%AD%90%E8%AF%AD%E6%96%99%E5%BA%93"><span class="toc-number">1.3.</span> <span class="toc-text">创建种子语料库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%83%A8%E5%88%86%E6%A3%80%E6%B5%8B"><span class="toc-number">1.4.</span> <span class="toc-text">部分检测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A0%E5%BF%AB%E9%80%9F%E5%BA%A6"><span class="toc-number">1.5.</span> <span class="toc-text">加快速度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Fuzz"><span class="toc-number">1.6.</span> <span class="toc-text">Fuzz</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AA%E5%AE%8C"><span class="toc-number">1.</span> <span class="toc-text">未完</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85QEMU"><span class="toc-number">1.1.</span> <span class="toc-text">安装QEMU</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Adobe-Reader"><span class="toc-number">2.</span> <span class="toc-text">安装 Adobe Reader</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%A7%8D%E5%AD%90%E8%AF%AD%E6%96%99%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text">创建种子语料库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Fuzz"><span class="toc-number">2.2.</span> <span class="toc-text">Fuzz</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80"><span class="toc-number">2.2.1.</span> <span class="toc-text">方法一</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8C%81%E4%B9%85%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.2.2.</span> <span class="toc-text">持久模式</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5"><span class="toc-number">2.3.</span> <span class="toc-text">检查</span></a></li></ol></li></ol>
       </div>
       
         <div class="catelogue catelogue-2">
           
             <p>
               <span>上一篇：</span>
-              <a href="/2023/07/22/Fuzzing101-Exercise8/">Fuzzing101-Exercise8</a>
+              <a href="/2023/07/23/The-structure-of-paper-report-in-Systems/">The structure of paper/report in Systems</a>
             </p>
            
           
             <p>
               <span>下一篇</span>
-              <a href="/2023/07/15/How-to-give-a-good-research-talk/">How to give a good research talk</a>
+              <a href="/2023/07/16/Fuzzing101-Exercise7/">Fuzzing101-Exercise7</a>
             </p>
           
         </div>
@@ -489,7 +517,7 @@ cd ..  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></s
     recordIP: config.recordIP,
     visitor: config.visitor,
     enableQQ: config.enableQQ,
-    path: '2023/07/16/Fuzzing101-Exercise7/'
+    path: '2023/07/22/Fuzzing101-Exercise8/'
   })
 </script>
 
