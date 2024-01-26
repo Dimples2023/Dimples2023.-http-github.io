@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>我的技术与生活——小站首页 | Dimples的Blog</title>
+  <title>我的技术与生活——Paper 2 | Dimples的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `我的技术与生活——小站首页`
+    document.title = `我的技术与生活——Paper 2`
   </script>
 <meta name="generator" content="Hexo 6.3.0"></head>
 
@@ -346,198 +346,140 @@
 </div></div>
       <div id="main-container" class="main-container">
 
-    
 
-<div class="index">
-  <div class="index-left">
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/08/2023-7-7/">2023-7-7 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/07/So-you-want-to-work-in-security-%E8%AF%BB%E5%90%8E%E6%84%9F/">So you want to work in security?读后感 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E8%AF%BB%E5%90%8E%E6%84%9F/" rel="tag">读后感</a>
-              </p>
+  <style>
+pre::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+  background-color:#F5F5F5;
+}
+/*定义滚动条轨道
+内阴影+圆角*/
+pre::-webkit-scrollbar-track {
+  background-color:#F5F5F5;
+}
+/*定义滑块
+内阴影+圆角*/
+pre::-webkit-scrollbar-thumb {
+  background-color: rgb(69, 83, 100);
+}
+
+pre:active {
+  background-color: rgb(81, 95, 116);
+}
+</style>
+
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">Paper 2</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
             
           </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/06/%E7%AC%AC%E4%B8%80%E7%AF%87Blog/">第一篇Blog </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/First-Blog-test/" rel="tag">First Blog test</a>
-              </p>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
             
           </div>
-          <div class="bg"></div>
+          
+          <p class="article-info--date">日期：2024-01-26 19:32:33</p>
         </div>
+        <img src="/imgs/default-cover.webp" alt="" class="article-cover">
       </div>
+    </div>
+    <article class="article-content">
+      <p>本论文来自</p>
+<p>Oliveri A, Dell’Amico M, Balzarotti D. An OS-agnostic Approach to Memory Forensics[C]&#x2F;&#x2F;NDSS 2023, Network and Distributed System Security Symposium, 27 February-3 March 2023, San Diego, CA, USA. Internet Society, 2023.</p>
+<h4 id="内存取证"><a href="#内存取证" class="headerlink" title="内存取证"></a>内存取证</h4><p>​	内存取证是对传统磁盘取证的补充，攻击者通过隐藏或删除攻击痕迹 的手段， 使得传统的对硬盘的取证获得的信息变得越来 越困难。同时，磁盘中的数据加密技术也越来 越普及，此时就涉及到了内存取证，内存取证是指从计算机物理内存和页面交换文件中查找、 提取、分析易失性证据，是对传统基于硬盘中数据取证的重要补充，也是对抗网络攻击或网络犯罪的有力武器。内存取证有着速度快，镜像占用空间小等优势。</p>
+<h4 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h4><p>​	由于操作系统使用各种（通常未记录的）方式来表示内存中的数据。为了解决这个问题，取证工具维护了一系列模型，这些模型精确地描述了少数操作系统使用的内核数据结构。然而，这些模型无法推广，开发新模型可能需要对闭源系统进行非常漫长而乏味的逆向工程工作。在过去几年中，物联网设备、智能家电和云托管虚拟机数量的大幅增加导致越来越多的操作系统不受当前取证工具的支持。直到今天，我们一直基于手写模型和规则进行内存取证的方式无法简单地跟上这些系统的步伐。</p>
+<h4 id="种子（Seed）"><a href="#种子（Seed）" class="headerlink" title="种子（Seed）"></a>种子（Seed）</h4><p>​	作者将种子定义为一块数据，这些数据要么是分析师先验知道的，要么是通过检查内存可以很容易地识别为有效的信息。通过使用与操作系统无关的基于规则的雕刻技术，可以直接从内存转储中提取种子。关于种子的例子有:分析员知道在获取转储时正在运行的进程的名称、文件系统中的路径、内核模块的名称、分配给网络接口的IP地址等。例如，可以通过查找ASCII码或UTF8&#x2F;16字符序列轻松地从内核内存中提取字符串。同样的技术也可以用于提取具有不可变且与操作系统无关的结构和编码(如网络数据包)的其他信息。</p>
+<h4 id="引出方法"><a href="#引出方法" class="headerlink" title="引出方法"></a>引出方法</h4><p>​	为了克服这个问题，作者引入了与操作系统无关的内存取证的新概念，该概念基于可以在不了解底层操作系统内部的情况下恢复某些取证信息的技术。</p>
+<p>​	作者的方法仅依赖于内核用于组织数据的数据结构的与操作系统无关的属性。事实上，像所有软件一样，操作系统内核将信息存储在一组数据结构中，由于其拓扑特性，这些数据结构可以被检测和重构。对于大多数CPU体系结构，通过仅使用来自机器硬件配置的信息，可以以一种与操作系统无关的方式重建内核地址空间。正是通过使用这些信息，作者重建了内存中的内核数据结构，如链表和树。</p>
+<p>​	在本文中，作者首先提出了一种新算法，以全自动方式识别与取证相关的数据结构。</p>
+<p>​	作为取证相关的，作者考虑所有那些包含或指向取证分析期间所需信息的数据结构，因此不包括操作系统仅用于其基本功能的数据结构（例如，用于硬件管理的数据结构，通信在其内部部件之间，同步等）。作者的技术将单个内存转储和一个从原始数据中提取指针的函数作为输入。然后，在没有人为干预的情况下，它会根据拓扑属性提取与取证相关的数据结构。作者研究了两种互补的方法来执行此任务。</p>
+
+    </article>
+    
+    <div class="read-nums">
+      <!-- id 将作为查询条件 -->
+      <span id="2024/01/26/2/" class="leancloud_visitors" data-flag-title="Your Article Title">
+        <em class="post-meta-item-text">浏览量</em>
+        <i class="leancloud-visitors-count"></i>
+      </span>
+    </div>
+    <div class="comments-intro">
+      <h2>评论区</h2>
+      <p>欢迎你留下宝贵的意见，昵称输入QQ号会显示QQ头像哦~</p>
+    </div>
+    <div id="vcomments" class="vcomments"></div>
     
   </div>
-  <div class="index-center">
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" data-cover="" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/07/Fuzzing101-Exercise1/">Fuzzing101-Exercise1 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81"><span class="toc-number">1.</span> <span class="toc-text">内存取证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">提出问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%8D%E5%AD%90%EF%BC%88Seed%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">种子（Seed）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%87%BA%E6%96%B9%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">引出方法</span></a></li></ol>
       </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" data-cover="" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/06/2023-7-6/">2023.7.6 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" data-cover="" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/06/hello-world/">Hello World </a>
-          <div>
-            
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-  </div>
-  <div class="index-right">
-    <div class="index-right-wrapper">
       
-      <ul class="tags" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E5%90%8E%E6%84%9F/" rel="tag">读后感</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/First-Blog-test/" rel="tag">First Blog test</a></li></ul>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">2024年01月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">2023年07月</a><span class="archive-list-count">16</span></li></ul>
+        <div class="catelogue catelogue-2">
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2024/01/24/1/">Paper 1</a>
+            </p>
+          
+        </div>
+      
     </div>
   </div>
 </div>
 
-  <div class="page">
-    <a class="extend prev" rel="prev" href="/archives/2023/">&lt;</a><a class="page-number" href="/archives/2023/">1</a><span class="page-number current">2</span>
-  </div>
+<script src="http://cdn.yangxiang.cc/prism.js"></script>
+
+<script>
+  // var定义，避免pjax重新进来造成的重复声明错误
+  var config = JSON.parse('{"enable":true,"appId":"Pf8zCXGEH1qsprnWfikVVujL-gzGzoHsz","appKey":"qOqoiUHhH1TGtLRUYURkLRQX","placeholder":"请留下你宝贵的意见吧~","meta":["nick"],"recordIP":true,"visitor":true,"enableQQ":true}')
+  new Valine({
+    el: '#vcomments',
+    appId: config.appId,
+    appKey: config.appKey,
+    placeholder: config.placeholder,
+    meta: config.meta,
+    recordIP: config.recordIP,
+    visitor: config.visitor,
+    enableQQ: config.enableQQ,
+    path: '2024/01/26/2/'
+  })
+</script>
 
 
 <script>
-  var allImgBoxs = document.querySelectorAll('.index-article--box');
-  var windowHeight = window.innerHeight;
-  var boxs = Array.from(allImgBoxs);
-  var timer = null;
-  boxs.forEach((box, idx) => {
-    if (!window.loadImageSet || !window.loadImageSet.includes(idx)) {
-      box.classList.add('img-loading');
-    } else {
-      const imgDom = box.querySelector('img');
-      imgDom.src = imgDom.dataset.cover;
-    }
-  });
-
-  function scrollFn() {
-    if (timer) {
-      return;
-    }
-    timer = setTimeout(() => {
-      loadImage();
-      timer = null;
-    }, 100)
-  }
-
-  if (!window.loadedImage) {
-    document.addEventListener('scroll', scrollFn);
-  }
-
-  function loadImage() {
-    const doc = document.documentElement;
-    const scrollTop = doc.scrollTop;
-    if (boxs.every(box => box.loadedImage)) {
-      document.removeEventListener('scroll', scrollFn);
-      window.loadedImage = 1;
-      return;
-    }
-    boxs.forEach((box, idx) => {
-      if (box.loadedImage) {
-        return;
-      }
-      if (box.getBoundingClientRect().top < windowHeight) {
-        const imgDom = box.querySelector('img');
-        imgDom.src = imgDom.dataset.cover;
-        imgDom.onload = () => {
-          box.classList.remove('img-loading')
-          box.loadedImage = true;
-          if (window.loadImageSet) {
-            window.loadImageSet.push(idx);
-          } else {
-            window.loadImageSet = [];
-            window.loadImageSet.push(idx);
-          }
-        }
-      }
-    });
-  }
-
-  window.loadImageFn = loadImage;
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
 </script> 
+
 </div>
       <div class="main-right-wrapper"><div class="main-right">
   <div class="main-right--board">
