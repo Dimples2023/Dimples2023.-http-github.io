@@ -335,7 +335,7 @@
       </p>
       <p class="main-left--subtitle">
         <span>上线时间：</span>
-        <span>205天</span>
+        <span>206天</span>
       </p>
       <p class="main-left--subtitle">
         <span>当前版本：</span>
@@ -402,6 +402,12 @@ pre:active {
 <p>​	作者的方法仅依赖于内核用于组织数据的数据结构的与操作系统无关的属性。事实上，像所有软件一样，操作系统内核将信息存储在一组数据结构中，由于其拓扑特性，这些数据结构可以被检测和重构。对于大多数CPU体系结构，通过仅使用来自机器硬件配置的信息，可以以一种与操作系统无关的方式重建内核地址空间。正是通过使用这些信息，作者重建了内存中的内核数据结构，如链表和树。</p>
 <p>​	在本文中，作者首先提出了一种新算法，以全自动方式识别与取证相关的数据结构。</p>
 <p>​	作为取证相关的，作者考虑所有那些包含或指向取证分析期间所需信息的数据结构，因此不包括操作系统仅用于其基本功能的数据结构（例如，用于硬件管理的数据结构，通信在其内部部件之间，同步等）。作者的技术将单个内存转储和一个从原始数据中提取指针的函数作为输入。然后，在没有人为干预的情况下，它会根据拓扑属性提取与取证相关的数据结构。作者研究了两种互补的方法来执行此任务。</p>
+<h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><p>​	作者首先观察到，从取证分析的角度来看，绝大多数数据结构是无关紧要的。我们可以识别与取证相关的数据结构，因为它们引用或嵌入了特定的种子，这些种子是分析师先验知道的信息片段，或者可以很容易地从内存中提取出来。种子的示例有进程名称、IP 地址或文件名。种子很重要，因为分析师可以将它们用来过滤数据结构，然后自动提取相同类型的信息。例如，只知道一个进程名称就足以 识别指向它的数据结构（例如双向链表），以及探索该结构的所有元素并打印出由位于数据结构中相同偏移量的指针引用。即使之前对操作系统一无所知，一旦知道其中一个进程名称，这种自动化程序也允许取证分析师列出所有进程名称。</p>
+<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><p>​	第二种方法是无种子分析。</p>
+<p>​	系统不需要种子，而是使用一组启发式方法对所有内存数据结构进行排序，并只向分析人员呈现最“有前途”的数据结构。在不了解操作系统的情况下，作者表明了从内存转储中检索结构化取证信息以用作高级分析的引导程序是可能的。例如，通过根据字段的统计属性对提取的数据结构进行过滤和排序，分析师可以使用我们的系统来查找引用取证相关字符串的数据结构。这种方法可以检索用第一种方法检索到的大部分数据结构，其优点是适用于分析师不知道有效种子的情况。</p>
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>​	在本文中，作者讨论了在不了解生成它们的操作系统的情况下，通过仅使用拓扑属性提取数据结构，从内存转储中提取数据结构的问题。特别要注意的是，作者已经注意到拓扑约束的存在如何有助于识别某些类型的结构，同时，允许在重建可靠性的基础上对它们进行排序。</p>
+<p>​	作者在14个不同的操作系统上测试了基于种子和无种子的技术。在第一种情况下，作者表明了即使只有一个种子，也可以提取进程列表、内核模块列表、池集和每个操作系统使用的文件系统信息。</p>
+<p>​	在更具挑战性的无种子场景中，分析师仍然能够通过作者的工具返回的前20个数据结构来提取基于种子的方法中考虑的81%的主要数据结构。</p>
 
     </article>
     
@@ -423,7 +429,7 @@ pre:active {
     <div class="article-catelogue--wrapper">
       <div class="catelogue catelogue-1">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81"><span class="toc-number">1.</span> <span class="toc-text">内存取证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">提出问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%8D%E5%AD%90%EF%BC%88Seed%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">种子（Seed）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%87%BA%E6%96%B9%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">引出方法</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81"><span class="toc-number">1.</span> <span class="toc-text">内存取证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">提出问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%8D%E5%AD%90%EF%BC%88Seed%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">种子（Seed）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%87%BA%E6%96%B9%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">引出方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80"><span class="toc-number">5.</span> <span class="toc-text">方法一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="toc-number">6.</span> <span class="toc-text">方法二</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">7.</span> <span class="toc-text">结论</span></a></li></ol>
       </div>
       
         <div class="catelogue catelogue-2">
