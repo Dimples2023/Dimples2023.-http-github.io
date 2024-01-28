@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>我的技术与生活——小站首页 | Dimples的Blog</title>
+  <title>我的技术与生活——3 | Dimples的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `我的技术与生活——小站首页`
+    document.title = `我的技术与生活——3`
   </script>
 <meta name="generator" content="Hexo 6.3.0"></head>
 
@@ -346,133 +346,141 @@
 </div></div>
       <div id="main-container" class="main-container">
 
-    
 
-<div class="index">
-  <div class="index-left">
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2024/01/28/3/">3 </a>
-          <div>
-            
+  <style>
+pre::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+  background-color:#F5F5F5;
+}
+/*定义滚动条轨道
+内阴影+圆角*/
+pre::-webkit-scrollbar-track {
+  background-color:#F5F5F5;
+}
+/*定义滑块
+内阴影+圆角*/
+pre::-webkit-scrollbar-thumb {
+  background-color: rgb(69, 83, 100);
+}
+
+pre:active {
+  background-color: rgb(81, 95, 116);
+}
+</style>
+
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">3</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
             
           </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2024/01/24/1/">Paper 1 </a>
-          <div>
-            
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
             
           </div>
-          <div class="bg"></div>
+          
+          <p class="article-info--date">日期：2024-01-28 19:36:18</p>
         </div>
+        <img src="/imgs/default-cover.webp" alt="" class="article-cover">
       </div>
+    </div>
+    <article class="article-content">
+      <p>Henzinger A, Hong M M, Corrigan-Gibbs H, et al. One server for the price of two: Simple and fast single-server private information retrieval[C]&#x2F;&#x2F;Usenix Security. 2023, 23.</p>
+<h4 id="私人信息检索（PIR）"><a href="#私人信息检索（PIR）" class="headerlink" title="私人信息检索（PIR）"></a>私人信息检索（PIR）</h4><p>​	私人信息检索（Private Information Retrieval，PIR）是一种保护用户隐私的技术，它允许用户从数据库中检索数据，而不会泄露用户所请求的具体数据项，从而保护用户的隐私。</p>
+<p>​	在传统的数据库检索系统中，用户向服务器发送查询请求，服务器返回请求的数据项。然而，这个过程向服务器泄露了用户所请求的具体数据项，可能会危及用户的隐私。</p>
+<p>​	在PIR系统中，用户的查询请求被编码成一种隐藏了所请求具体数据项的形式。编码后的查询请求被发送到服务器，服务器返回的响应不会透露任何关于请求的数据项的信息，仅仅是满足查询请求所必需的信息。用户可以对服务器返回的响应进行解码，获取所请求的数据项，而不向服务器透露所请求的具体数据项。</p>
+<h4 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h4><p>​	现代PIR方案需要的通信量出奇地少：对于单个数据库服务器，在适度的加密假设下，获取数据库记录所需的总通信量仅随记录数N呈多对数增长。然而，PIR方案的计算代价很高：服务器必须接触数据库的每一个bit才能回答一个客户查询，否则PIR方案会泄露客户对数据库记录不感兴趣的信息。</p>
+<p>​	最近许多的PIR方案对数据库进行预处理，使得服务器可以在N中以次线性的时间回答查询，但是所有已知的方法都需要客户端特定的预处理或不现实的大服务器存储。因此，PIR方案的吞吐量的一个硬限制——即数据库大小与服务器响应查询时间之间比——就是PIR服务器从内存读取数据库的速度:在我们的机器上大约是12.4 GB&#x2F;s&#x2F;core。</p>
+<p>​	在客户端与单个数据库服务器交互的标准设置中，现有 PIR 协议的性能远未达到该理论极限：我们测量到，以前最快的单服务器PIR方案在百字节记录的数据库上实现了259 MB&#x2F;s&#x2F;core的吞吐量。当数据库记录为数百千字节长时，有可能将性能提升到1.3 GB&#x2F;s&#x2F;core，尽管该参数设置与许多PIR应用程序无关。</p>
+<p>​	当客户端可以与多个不相通的数据库服务器通信时，存在服务器端吞吐量高达11.5 GB&#x2F;s&#x2F;core的PIR方案。然而，这些多服务器PIR方案部署起来很麻烦，因为它们依赖于多个协调但独立的基础设施提供商。此外，它们的安全性是脆弱的，因为它源于非串通假设而不是加密强度。因此，现有的PIR方案要么在单服务器设置下性能较差，要么在多服务器情况下存在不期望的信任假设。</p>
+<h4 id="引出方案"><a href="#引出方案" class="headerlink" title="引出方案"></a>引出方案</h4><p>​	在本文中，我们提出了两种新的单服务器PIR协议，它们超过了所有现有单服务器PIR协议的吞吐量，并接近多服务器PIR协议的吞吐量。</p>
+<p>​	此外，我们的方案相对简单，易于解释和实现:我们的两个方案的完整实现，可在github上获得，大约需要1400行Go代码，加上200行C代码，并且不使用外部库。</p>
+
+    </article>
+    
+    <div class="read-nums">
+      <!-- id 将作为查询条件 -->
+      <span id="2024/01/28/3/" class="leancloud_visitors" data-flag-title="Your Article Title">
+        <em class="post-meta-item-text">浏览量</em>
+        <i class="leancloud-visitors-count"></i>
+      </span>
+    </div>
+    <div class="comments-intro">
+      <h2>评论区</h2>
+      <p>欢迎你留下宝贵的意见，昵称输入QQ号会显示QQ头像哦~</p>
+    </div>
+    <div id="vcomments" class="vcomments"></div>
     
   </div>
-  <div class="index-center">
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" data-cover="" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2024/01/26/2/">Paper 2 </a>
-          <div>
-            
-            
-          </div>
-          <div class="bg"></div>
-        </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%81%E4%BA%BA%E4%BF%A1%E6%81%AF%E6%A3%80%E7%B4%A2%EF%BC%88PIR%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">私人信息检索（PIR）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">提出问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%87%BA%E6%96%B9%E6%A1%88"><span class="toc-number">3.</span> <span class="toc-text">引出方案</span></a></li></ol>
       </div>
-    
-  </div>
-  <div class="index-right">
-    <div class="index-right-wrapper">
       
-      <ul class="tags" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E5%90%8E%E6%84%9F/" rel="tag">读后感</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/First-Blog-test/" rel="tag">First Blog test</a></li></ul>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">2024年01月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">2023年07月</a><span class="archive-list-count">16</span></li></ul>
+        <div class="catelogue catelogue-2">
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2024/01/26/2/">Paper 2</a>
+            </p>
+          
+        </div>
+      
     </div>
   </div>
 </div>
 
-  <div class="page">
-    <span class="page-number current">1</span>
-  </div>
+<script src="http://cdn.yangxiang.cc/prism.js"></script>
+
+<script>
+  // var定义，避免pjax重新进来造成的重复声明错误
+  var config = JSON.parse('{"enable":true,"appId":"Pf8zCXGEH1qsprnWfikVVujL-gzGzoHsz","appKey":"qOqoiUHhH1TGtLRUYURkLRQX","placeholder":"请留下你宝贵的意见吧~","meta":["nick"],"recordIP":true,"visitor":true,"enableQQ":true}')
+  new Valine({
+    el: '#vcomments',
+    appId: config.appId,
+    appKey: config.appKey,
+    placeholder: config.placeholder,
+    meta: config.meta,
+    recordIP: config.recordIP,
+    visitor: config.visitor,
+    enableQQ: config.enableQQ,
+    path: '2024/01/28/3/'
+  })
+</script>
 
 
 <script>
-  var allImgBoxs = document.querySelectorAll('.index-article--box');
-  var windowHeight = window.innerHeight;
-  var boxs = Array.from(allImgBoxs);
-  var timer = null;
-  boxs.forEach((box, idx) => {
-    if (!window.loadImageSet || !window.loadImageSet.includes(idx)) {
-      box.classList.add('img-loading');
-    } else {
-      const imgDom = box.querySelector('img');
-      imgDom.src = imgDom.dataset.cover;
-    }
-  });
-
-  function scrollFn() {
-    if (timer) {
-      return;
-    }
-    timer = setTimeout(() => {
-      loadImage();
-      timer = null;
-    }, 100)
-  }
-
-  if (!window.loadedImage) {
-    document.addEventListener('scroll', scrollFn);
-  }
-
-  function loadImage() {
-    const doc = document.documentElement;
-    const scrollTop = doc.scrollTop;
-    if (boxs.every(box => box.loadedImage)) {
-      document.removeEventListener('scroll', scrollFn);
-      window.loadedImage = 1;
-      return;
-    }
-    boxs.forEach((box, idx) => {
-      if (box.loadedImage) {
-        return;
-      }
-      if (box.getBoundingClientRect().top < windowHeight) {
-        const imgDom = box.querySelector('img');
-        imgDom.src = imgDom.dataset.cover;
-        imgDom.onload = () => {
-          box.classList.remove('img-loading')
-          box.loadedImage = true;
-          if (window.loadImageSet) {
-            window.loadImageSet.push(idx);
-          } else {
-            window.loadImageSet = [];
-            window.loadImageSet.push(idx);
-          }
-        }
-      }
-    });
-  }
-
-  window.loadImageFn = loadImage;
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
 </script> 
+
 </div>
       <div class="main-right-wrapper"><div class="main-right">
   <div class="main-right--board">
