@@ -335,7 +335,7 @@
       </p>
       <p class="main-left--subtitle">
         <span>上线时间：</span>
-        <span>207天</span>
+        <span>208天</span>
       </p>
       <p class="main-left--subtitle">
         <span>当前版本：</span>
@@ -403,6 +403,17 @@ pre:active {
 <p>​	当客户端可以与多个不相通的数据库服务器通信时，存在服务器端吞吐量高达11.5 GB&#x2F;s&#x2F;core的PIR方案。然而，这些多服务器PIR方案部署起来很麻烦，因为它们依赖于多个协调但独立的基础设施提供商。此外，它们的安全性是脆弱的，因为它源于非串通假设而不是加密强度。因此，现有的PIR方案要么在单服务器设置下性能较差，要么在多服务器情况下存在不期望的信任假设。</p>
 <h4 id="引出方案"><a href="#引出方案" class="headerlink" title="引出方案"></a>引出方案</h4><p>​	在本文中，我们提出了两种新的单服务器PIR协议，它们超过了所有现有单服务器PIR协议的吞吐量，并接近多服务器PIR协议的吞吐量。</p>
 <p>​	此外，我们的方案相对简单，易于解释和实现:我们的两个方案的完整实现，可在github上获得，大约需要1400行Go代码，加上200行C代码，并且不使用外部库。</p>
+<p>​	我们的第一个方案SimplePIR。</p>
+<p>​	与现有的 PIR 协议相比，SimplePIR降低了通信复杂性和计算复杂性。该协议还确保服务器无法学习有关用户查询的任何信息，超出用户访问模式所揭示的信息，从而提供更好的安全性。</p>
+<p>​	该协议使用两阶段方法，其中用户首先向服务器发送访问模式，然后接收一组标签。然后，用户使用这些标签加密其查询，并将加密的查询发送到服务器。然后，服务器返回请求的数据项，而不了解有关查询的任何信息。</p>
+<p>​	SimplePIR实现了10GB &#x2F;s&#x2F;core的服务器吞吐量，尽管它要求客户端在进行查询之前下载关于数据库内容的相对较大的“提示”。在N字节的数据库中，提示的大小大约为4√NKB。提示不是特定于客户端的，并且客户端可以在许多查询中重用提示，因此每个查询的平摊通信成本可能很小。</p>
+<p>​	我们的第二个方案是DoublePIR。</p>
+<p>​	该协议旨在提供比现有的双服务器 PIR 协议更好的性能，同时仍保持强大的安全保证。它通过结合对称密钥加密和秘密共享来实现这一点，与现有协议相比，降低了通信复杂度和计算复杂度。</p>
+<p>​	在 DoublePIR 中，客户端首先生成一个随机数，然后向每个服务器发送两个 PIR 查询，一个使用从随机数派生的密钥加密，另一个使用从随机数否定派生的密钥加密。服务器使用机密共享来计算两个查询的交集，并将结果返回到客户端。</p>
+<p>​	通过使用两个非串通服务器和秘密共享，DoublePIR 确保两个服务器都无法了解有关客户端查询的任何信息，从而提供强大的隐私保证。该协议在实验评估中已被证明是实用和高效的，在通信和计算复杂性方面优于几种现有的双服务器 PIR 协议。</p>
+<p>​	DoublePIR实现的服务器吞吐量略低，为7.4 GB&#x2F;s&#x2F;core，但对于一个单字节记录的数据库，它将提示量缩小到大约16 MB并且与数据库中的记录数量无关。</p>
+<h4 id="局限"><a href="#局限" class="headerlink" title="局限"></a>局限</h4><p>​	新PIR计划有两个主要缺点。首先，我们的客户端必须下载一个“提示”:对于大小为GB的数据库，提示是数十兆字节。如果客户机只进行一次查询，那么这个提示下载将主导整个通信。其次，我们方案的在线通信是数百千字节量级，比之前的一些工作大了10倍。尽管如此，我们相信SimplePIR和DoublePIR代表了PIR设计领域中一个新观点:大量的计算节省，以及概念上简单的设计和小的独立代码库，以适度的通信和存储开销为代价。</p>
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>​	我们证明单服务器PIR的每核吞吐量可以接近双服务器PIR的性能。</p>
 
     </article>
     
@@ -424,7 +435,7 @@ pre:active {
     <div class="article-catelogue--wrapper">
       <div class="catelogue catelogue-1">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%81%E4%BA%BA%E4%BF%A1%E6%81%AF%E6%A3%80%E7%B4%A2%EF%BC%88PIR%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">私人信息检索（PIR）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">提出问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%87%BA%E6%96%B9%E6%A1%88"><span class="toc-number">3.</span> <span class="toc-text">引出方案</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%81%E4%BA%BA%E4%BF%A1%E6%81%AF%E6%A3%80%E7%B4%A2%EF%BC%88PIR%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">私人信息检索（PIR）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">提出问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%87%BA%E6%96%B9%E6%A1%88"><span class="toc-number">3.</span> <span class="toc-text">引出方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B1%80%E9%99%90"><span class="toc-number">4.</span> <span class="toc-text">局限</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">5.</span> <span class="toc-text">结论</span></a></li></ol>
       </div>
       
         <div class="catelogue catelogue-2">
