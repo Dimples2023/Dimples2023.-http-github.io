@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>我的技术与生活——小站首页 | Dimples的Blog</title>
+  <title>我的技术与生活——Paper 4-2 | Dimples的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `我的技术与生活——小站首页`
+    document.title = `我的技术与生活——Paper 4-2`
   </script>
 <meta name="generator" content="Hexo 6.3.0"></head>
 
@@ -346,278 +346,147 @@
 </div></div>
       <div id="main-container" class="main-container">
 
-    
 
-<div class="index">
-  <div class="index-left">
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/15/How-to-give-a-good-research-talk/">How to give a good research talk </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E8%AF%BB%E5%90%8E%E6%84%9F/" rel="tag">读后感</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/13/Fuzzing101-Exercise5/">Fuzzing101-Exercise5 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
-              </p>
+  <style>
+pre::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+  background-color:#F5F5F5;
+}
+/*定义滚动条轨道
+内阴影+圆角*/
+pre::-webkit-scrollbar-track {
+  background-color:#F5F5F5;
+}
+/*定义滑块
+内阴影+圆角*/
+pre::-webkit-scrollbar-thumb {
+  background-color: rgb(69, 83, 100);
+}
+
+pre:active {
+  background-color: rgb(81, 95, 116);
+}
+</style>
+
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">Paper 4-2</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
             
           </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/10/Fuzzing101-Exercise3/">Fuzzing101-Exercise3 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
-              </p>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
             
           </div>
-          <div class="bg"></div>
+          
+          <p class="article-info--date">日期：2024-01-30 20:39:55</p>
         </div>
+        <img src="/imgs/default-cover.webp" alt="" class="article-cover">
       </div>
+    </div>
+    <article class="article-content">
+      <h4 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h4><p>​	<strong>放大DDoS攻击</strong>仍然是对互联网的普遍和严重威胁，最近的攻击达到了Tbps的范围。然而，迄今为止已知的所有放大攻击媒介要么是由研究人员通过艰苦的人工分析发现的，要么只能在大规模攻击后进行事后识别。但是，理想情况下，在第一次攻击发生之前，可以发现并缓解攻击。</p>
+<p>放大DDos攻击：放大攻击是分布式拒绝服务(DDoS)攻击的主要类型，它是发送带有虚假源地址的数据包给中间媒介，中间媒介对于每个来自攻击者的原始数据包会产生多个响应数据包。攻击者可以使用一个伪造的源IP地址发送一个小数据包（伪造的IP地址就是受害者的IP地址），并让服务器(或多个服务器)向受害者发送大量回复，从而导致受害者网络拥塞。</p>
+<h4 id="Fuzzing"><a href="#Fuzzing" class="headerlink" title="Fuzzing"></a>Fuzzing</h4><p>​	模糊测试（Fuzzing）已经成为一种发现软件漏洞的流行技术。起源于软件测试领域，其关键思想是在大量随机输入下运行被测系统(System under Test, SuT)，同时监视其异常行为。虽然通常用于检查崩溃，但模糊测试也被用于发现性能问题或意外的大内存分配</p>
+<h4 id="灰盒模糊器"><a href="#灰盒模糊器" class="headerlink" title="灰盒模糊器"></a>灰盒模糊器</h4><p>​	黑盒模糊器完全随机地生成输入，对SuT的内部工作原理一无所知。这使他们能够快速测试许多输入，但通常会在需要结构化输入的程序中失败。相反，白盒模糊器试图通过静态程序分析来深入了解SuT，这可能需要象征性地执行程序来查找当前路径的输入约束。这使得白盒模糊测试可以到达代码的“深层”部分。然而，符号执行的沉重运行时开销，加上路径爆炸问题和库支持不足，使得白盒模糊测试在许多用例中不切实际。</p>
+<p>​	因此，最常用的方法是灰盒模糊，针对上述策略之间的最佳点。灰盒模糊测试通过轻量级程序检测获得的运行时反馈增强了黑盒模糊测试的可扩展性。然后，这个运行时反馈用于指导输入生成，要么增加一般代码覆盖率，要么达到程序中的特定点。</p>
+<h4 id="AMPFuzz"><a href="#AMPFuzz" class="headerlink" title="AMPFuzz"></a>AMPFuzz</h4><p>​	在本文中，作者提供了第一个原则性的、与协议无关的方法来揭示网络服务中的新放大漏洞。作者提出了一种灰盒模糊器，旨在发现导致显著较大响应的网络请求。作者通过使用定向模糊器，该模糊器优先考虑导致发送函数的路径，并且使用udp感知扩展。</p>
+<p>​	为此，作者将静态分析与轻量级仪器相结合，以便在程序需要输入时通知模糊器。在许多情况下，这些技术还使我们能够主动终止不产生输出的模糊执行，而不是依赖于代价高昂的超时。</p>
+<p>UDP感知：指 AmpFuzz 对 UDP 协议的理解和处理能力，使其能够针对UDP协议进行模糊测试，发现可能导致放大型DDoS攻击的潜在漏洞。</p>
+<p>​	作为AMPFUZZ的另一个应用，我们扩展了它的管道，提供了通过DDoS蜜罐自动化监控放大滥用的必要手段。到目前为止，放大DDoS蜜罐完全依赖于专家，他们必须手工制作针对攻击者探测的特定协议的回复。我们扩展了我们的方法来合成已识别漏洞的请求处理程序例程，这些例程可以插入到放大蜜罐中。我们通过利用符号执行为每个发现的漏洞生成路径约束和输出表达式来自动化这个过程。然后，这些可以用来匹配蜜罐收到的探测请求，并选择攻击者认为有吸引力的回复。因此，我们可以自动化从扫描服务的放大漏洞到创建蜜罐来模拟发现的行为的整个过程。</p>
+<p>符号执行：符号执行采用符号值而不是具体值来代表程序中的变量。然后，它以符号形式执行程序，尝试遍历所有可能的路径和执行情况。通过建立程序的路径约束，符号执行可以推导出导致程序出现错误或异常行为的特定输入组合。</p>
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>​	作者提出了AMPFUZZ，这是第一个基于定向灰盒模糊的系统和协议无关的方法，用于发现网络服务中的放大漏洞。作者引入了udp感知的新概念，显著提高了AMPFUZZ的模糊性能。</p>
+
+    </article>
     
-      <div class="index-article">
-        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/08/2023-7-7/">2023-7-7 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/07/So-you-want-to-work-in-security-%E8%AF%BB%E5%90%8E%E6%84%9F/">So you want to work in security?读后感 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E8%AF%BB%E5%90%8E%E6%84%9F/" rel="tag">读后感</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
+    <div class="read-nums">
+      <!-- id 将作为查询条件 -->
+      <span id="2024/01/30/4-2/" class="leancloud_visitors" data-flag-title="Your Article Title">
+        <em class="post-meta-item-text">浏览量</em>
+        <i class="leancloud-visitors-count"></i>
+      </span>
+    </div>
+    <div class="comments-intro">
+      <h2>评论区</h2>
+      <p>欢迎你留下宝贵的意见，昵称输入QQ号会显示QQ头像哦~</p>
+    </div>
+    <div id="vcomments" class="vcomments"></div>
     
   </div>
-  <div class="index-center">
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" data-cover="" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/14/Fuzzing101-Exercise6/">Fuzzing101-Exercise6 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">提出问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Fuzzing"><span class="toc-number">2.</span> <span class="toc-text">Fuzzing</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%81%B0%E7%9B%92%E6%A8%A1%E7%B3%8A%E5%99%A8"><span class="toc-number">3.</span> <span class="toc-text">灰盒模糊器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AMPFuzz"><span class="toc-number">4.</span> <span class="toc-text">AMPFuzz</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">5.</span> <span class="toc-text">结论</span></a></li></ol>
       </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" data-cover="" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/11/Fuzzing101-Exercise4/">Fuzzing101-Exercise4 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" data-cover="" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/09/Fuzzing101-Exercise2/">Fuzzing101-Exercise2 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" data-cover="" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/07/Fuzzing101-Exercise1/">Fuzzing101-Exercise1 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" data-cover="" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/06/2023-7-6/">2023.7.6 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-  </div>
-  <div class="index-right">
-    <div class="index-right-wrapper">
       
-      <ul class="tags" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E5%90%8E%E6%84%9F/" rel="tag">读后感</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/First-Blog-test/" rel="tag">First Blog test</a></li></ul>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">2024年01月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">2023年07月</a><span class="archive-list-count">16</span></li></ul>
+        <div class="catelogue catelogue-2">
+          
+            <p>
+              <span>上一篇：</span>
+              <a href="/2024/01/30/5/">Paper 5</a>
+            </p>
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2024/01/30/4/">Paper 4</a>
+            </p>
+          
+        </div>
+      
     </div>
   </div>
 </div>
 
-  <div class="page">
-    <a class="extend prev" rel="prev" href="/archives/">&lt;</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/3/">&gt;</a>
-  </div>
+<script src="http://cdn.yangxiang.cc/prism.js"></script>
+
+<script>
+  // var定义，避免pjax重新进来造成的重复声明错误
+  var config = JSON.parse('{"enable":true,"appId":"Pf8zCXGEH1qsprnWfikVVujL-gzGzoHsz","appKey":"qOqoiUHhH1TGtLRUYURkLRQX","placeholder":"请留下你宝贵的意见吧~","meta":["nick"],"recordIP":true,"visitor":true,"enableQQ":true}')
+  new Valine({
+    el: '#vcomments',
+    appId: config.appId,
+    appKey: config.appKey,
+    placeholder: config.placeholder,
+    meta: config.meta,
+    recordIP: config.recordIP,
+    visitor: config.visitor,
+    enableQQ: config.enableQQ,
+    path: '2024/01/30/4-2/'
+  })
+</script>
 
 
 <script>
-  var allImgBoxs = document.querySelectorAll('.index-article--box');
-  var windowHeight = window.innerHeight;
-  var boxs = Array.from(allImgBoxs);
-  var timer = null;
-  boxs.forEach((box, idx) => {
-    if (!window.loadImageSet || !window.loadImageSet.includes(idx)) {
-      box.classList.add('img-loading');
-    } else {
-      const imgDom = box.querySelector('img');
-      imgDom.src = imgDom.dataset.cover;
-    }
-  });
-
-  function scrollFn() {
-    if (timer) {
-      return;
-    }
-    timer = setTimeout(() => {
-      loadImage();
-      timer = null;
-    }, 100)
-  }
-
-  if (!window.loadedImage) {
-    document.addEventListener('scroll', scrollFn);
-  }
-
-  function loadImage() {
-    const doc = document.documentElement;
-    const scrollTop = doc.scrollTop;
-    if (boxs.every(box => box.loadedImage)) {
-      document.removeEventListener('scroll', scrollFn);
-      window.loadedImage = 1;
-      return;
-    }
-    boxs.forEach((box, idx) => {
-      if (box.loadedImage) {
-        return;
-      }
-      if (box.getBoundingClientRect().top < windowHeight) {
-        const imgDom = box.querySelector('img');
-        imgDom.src = imgDom.dataset.cover;
-        imgDom.onload = () => {
-          box.classList.remove('img-loading')
-          box.loadedImage = true;
-          if (window.loadImageSet) {
-            window.loadImageSet.push(idx);
-          } else {
-            window.loadImageSet = [];
-            window.loadImageSet.push(idx);
-          }
-        }
-      }
-    });
-  }
-
-  window.loadImageFn = loadImage;
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
 </script> 
+
 </div>
       <div class="main-right-wrapper"><div class="main-right">
   <div class="main-right--board">

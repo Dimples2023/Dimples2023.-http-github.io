@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>我的技术与生活——小站首页 | Dimples的Blog</title>
+  <title>我的技术与生活——Paper 5 | Dimples的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `我的技术与生活——小站首页`
+    document.title = `我的技术与生活——Paper 5`
   </script>
 <meta name="generator" content="Hexo 6.3.0"></head>
 
@@ -346,278 +346,137 @@
 </div></div>
       <div id="main-container" class="main-container">
 
-    
 
-<div class="index">
-  <div class="index-left">
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/15/How-to-give-a-good-research-talk/">How to give a good research talk </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E8%AF%BB%E5%90%8E%E6%84%9F/" rel="tag">读后感</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/13/Fuzzing101-Exercise5/">Fuzzing101-Exercise5 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
-              </p>
+  <style>
+pre::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+  background-color:#F5F5F5;
+}
+/*定义滚动条轨道
+内阴影+圆角*/
+pre::-webkit-scrollbar-track {
+  background-color:#F5F5F5;
+}
+/*定义滑块
+内阴影+圆角*/
+pre::-webkit-scrollbar-thumb {
+  background-color: rgb(69, 83, 100);
+}
+
+pre:active {
+  background-color: rgb(81, 95, 116);
+}
+</style>
+
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">Paper 5</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
             
           </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/10/Fuzzing101-Exercise3/">Fuzzing101-Exercise3 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
-              </p>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
             
           </div>
-          <div class="bg"></div>
+          
+          <p class="article-info--date">日期：2024-01-30 20:40:58</p>
         </div>
+        <img src="/imgs/default-cover.webp" alt="" class="article-cover">
       </div>
+    </div>
+    <article class="article-content">
+      <h4 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h4><p>​	当前一种流行的运行时攻击技术是通过修改堆栈上的函数返回地址来破坏程序的控制流完整性。到目前为止，<strong>影子堆栈</strong>已被证明对于全面防止返回地址操纵至关重要。<strong>影子堆栈</strong>将返回地址记录在受硬件辅助或软件访问控制保护的完整性保护内存中。但是<strong>软件影子堆栈</strong>会产生高额开销或牺牲安全性以换取效率，而<strong>硬件辅助影子堆栈</strong>高效且安全，但需要部署专用硬件。</p>
+<h4 id="提出方案"><a href="#提出方案" class="headerlink" title="提出方案"></a>提出方案</h4><p>​	在本文中，作者提出了一种新方法，即经过<strong>身份验证的调用堆栈</strong>（<strong>ACS</strong>），它提供与硬件辅助影子堆栈相当的安全性，开销最小，并且不需要新的硬件保护内存。 <strong>ACS</strong> 将所有返回地址绑定到 <strong>消息身份验证码</strong>（<strong>MAC</strong>）链中，以便在使用返回地址之前对其进行验证。作者展示了如何使用 <strong>ARM PA</strong> 有效地实现 <strong>ACS</strong>，同时抵抗重用攻击。由此产生的系统 <strong>PACStack</strong> 可以通过完全内存访问来抵御强大的对手。</p>
+<p><strong>ARM</strong>：ARM（Advanced RISC Machines）是一种低功耗、高效能的处理器架构，广泛用于移动设备、嵌入式系统和其他各种应用领域</p>
+<p><strong>ARM PA</strong>：ARM PA（ARM Pointer Authentication）是一种ARM体系结构的安全特性，旨在提供指针的认证和防止针对指针的攻击。ARM PA引入了一种机制，通过在指针中添加额外的认证位来验证指针的完整性，从而增强代码的安全性。</p>
+<h4 id="ACS的设计"><a href="#ACS的设计" class="headerlink" title="ACS的设计"></a>ACS的设计</h4><p>​	关键思想是通过以加密方式将返回地址绑定到调用堆栈中所有先前的返回地址以此来为该返回地址提供修饰符。这使得修改器对于特定的控制流路径在统计上是唯一的，从而防止重用攻击并允许精确验证返回地址。</p>
+<p>​	返回地址 <strong>reti</strong>,i ∈ [0,n]（其中 n 是调用堆栈的深度）必须存储在堆栈中，攻击者可以通过利用内存漏洞来修改它们。 <strong>ACS</strong> 通过计算一系列链式身份验证令牌 <strong>authi</strong>,i ∈ [0,n] 来保护这些值，这些令牌以加密方式将最后一个身份验证绑定到存储在堆栈上的所有返回地址 <strong>reti</strong>,i ∈ [0,n − 1] 。只有 <strong>MAC</strong> 密钥和最后一个身份验证令牌 <strong>authn</strong> 必须安全存储，以确保在展开调用堆栈时可以正确验证以前的身份验证令牌和返回地址。</p>
+
+    </article>
     
-      <div class="index-article">
-        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/08/2023-7-7/">2023-7-7 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/07/So-you-want-to-work-in-security-%E8%AF%BB%E5%90%8E%E6%84%9F/">So you want to work in security?读后感 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E8%AF%BB%E5%90%8E%E6%84%9F/" rel="tag">读后感</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
+    <div class="read-nums">
+      <!-- id 将作为查询条件 -->
+      <span id="2024/01/30/5/" class="leancloud_visitors" data-flag-title="Your Article Title">
+        <em class="post-meta-item-text">浏览量</em>
+        <i class="leancloud-visitors-count"></i>
+      </span>
+    </div>
+    <div class="comments-intro">
+      <h2>评论区</h2>
+      <p>欢迎你留下宝贵的意见，昵称输入QQ号会显示QQ头像哦~</p>
+    </div>
+    <div id="vcomments" class="vcomments"></div>
     
   </div>
-  <div class="index-center">
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" data-cover="" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/14/Fuzzing101-Exercise6/">Fuzzing101-Exercise6 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">提出问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">提出方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ACS%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.</span> <span class="toc-text">ACS的设计</span></a></li></ol>
       </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" data-cover="" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/11/Fuzzing101-Exercise4/">Fuzzing101-Exercise4 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" data-cover="" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/09/Fuzzing101-Exercise2/">Fuzzing101-Exercise2 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" data-cover="" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/07/Fuzzing101-Exercise1/">Fuzzing101-Exercise1 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-      <div class="index-article">
-        <!-- <img class="index-article--cover" data-cover="" src="/imgs/default-cover.webp" alt=""> -->
-        <div class="index-article--box">
-          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="">
-        </div>
-        <div class="index-article--content">
-          <a href="/2023/07/06/2023-7-6/">2023.7.6 </a>
-          <div>
-            
-            
-              <p>
-                <a class="-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
-              </p>
-            
-          </div>
-          <div class="bg"></div>
-        </div>
-      </div>
-    
-  </div>
-  <div class="index-right">
-    <div class="index-right-wrapper">
       
-      <ul class="tags" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E5%90%8E%E6%84%9F/" rel="tag">读后感</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="tag">实验报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/First-Blog-test/" rel="tag">First Blog test</a></li></ul>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">2024年01月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">2023年07月</a><span class="archive-list-count">16</span></li></ul>
+        <div class="catelogue catelogue-2">
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2024/01/30/4-2/">Paper 4-2</a>
+            </p>
+          
+        </div>
+      
     </div>
   </div>
 </div>
 
-  <div class="page">
-    <a class="extend prev" rel="prev" href="/archives/">&lt;</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/3/">&gt;</a>
-  </div>
+<script src="http://cdn.yangxiang.cc/prism.js"></script>
+
+<script>
+  // var定义，避免pjax重新进来造成的重复声明错误
+  var config = JSON.parse('{"enable":true,"appId":"Pf8zCXGEH1qsprnWfikVVujL-gzGzoHsz","appKey":"qOqoiUHhH1TGtLRUYURkLRQX","placeholder":"请留下你宝贵的意见吧~","meta":["nick"],"recordIP":true,"visitor":true,"enableQQ":true}')
+  new Valine({
+    el: '#vcomments',
+    appId: config.appId,
+    appKey: config.appKey,
+    placeholder: config.placeholder,
+    meta: config.meta,
+    recordIP: config.recordIP,
+    visitor: config.visitor,
+    enableQQ: config.enableQQ,
+    path: '2024/01/30/5/'
+  })
+</script>
 
 
 <script>
-  var allImgBoxs = document.querySelectorAll('.index-article--box');
-  var windowHeight = window.innerHeight;
-  var boxs = Array.from(allImgBoxs);
-  var timer = null;
-  boxs.forEach((box, idx) => {
-    if (!window.loadImageSet || !window.loadImageSet.includes(idx)) {
-      box.classList.add('img-loading');
-    } else {
-      const imgDom = box.querySelector('img');
-      imgDom.src = imgDom.dataset.cover;
-    }
-  });
-
-  function scrollFn() {
-    if (timer) {
-      return;
-    }
-    timer = setTimeout(() => {
-      loadImage();
-      timer = null;
-    }, 100)
-  }
-
-  if (!window.loadedImage) {
-    document.addEventListener('scroll', scrollFn);
-  }
-
-  function loadImage() {
-    const doc = document.documentElement;
-    const scrollTop = doc.scrollTop;
-    if (boxs.every(box => box.loadedImage)) {
-      document.removeEventListener('scroll', scrollFn);
-      window.loadedImage = 1;
-      return;
-    }
-    boxs.forEach((box, idx) => {
-      if (box.loadedImage) {
-        return;
-      }
-      if (box.getBoundingClientRect().top < windowHeight) {
-        const imgDom = box.querySelector('img');
-        imgDom.src = imgDom.dataset.cover;
-        imgDom.onload = () => {
-          box.classList.remove('img-loading')
-          box.loadedImage = true;
-          if (window.loadImageSet) {
-            window.loadImageSet.push(idx);
-          } else {
-            window.loadImageSet = [];
-            window.loadImageSet.push(idx);
-          }
-        }
-      }
-    });
-  }
-
-  window.loadImageFn = loadImage;
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
 </script> 
+
 </div>
       <div class="main-right-wrapper"><div class="main-right">
   <div class="main-right--board">
