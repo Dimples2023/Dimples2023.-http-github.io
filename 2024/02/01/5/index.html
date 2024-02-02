@@ -335,7 +335,7 @@
       </p>
       <p class="main-left--subtitle">
         <span>上线时间：</span>
-        <span>209天</span>
+        <span>212天</span>
       </p>
       <p class="main-left--subtitle">
         <span>当前版本：</span>
@@ -399,6 +399,15 @@ pre:active {
 <p><strong>ARM PA</strong>：ARM PA（ARM Pointer Authentication）是一种ARM体系结构的安全特性，旨在提供指针的认证和防止针对指针的攻击。ARM PA引入了一种机制，通过在指针中添加额外的认证位来验证指针的完整性，从而增强代码的安全性。</p>
 <h4 id="ACS的设计"><a href="#ACS的设计" class="headerlink" title="ACS的设计"></a>ACS的设计</h4><p>​	关键思想是通过以加密方式将返回地址绑定到调用堆栈中所有先前的返回地址以此来为该返回地址提供修饰符。这使得修改器对于特定的控制流路径在统计上是唯一的，从而防止重用攻击并允许精确验证返回地址。</p>
 <p>​	返回地址 <strong>reti</strong>,i ∈ [0,n]（其中 n 是调用堆栈的深度）必须存储在堆栈中，攻击者可以通过利用内存漏洞来修改它们。 <strong>ACS</strong> 通过计算一系列链式身份验证令牌 <strong>authi</strong>,i ∈ [0,n] 来保护这些值，这些令牌以加密方式将最后一个身份验证绑定到存储在堆栈上的所有返回地址 <strong>reti</strong>,i ∈ [0,n − 1] 。只有 <strong>MAC</strong> 密钥和最后一个身份验证令牌 <strong>authn</strong> 必须安全存储，以确保在展开调用堆栈时可以正确验证以前的身份验证令牌和返回地址。</p>
+<p>​	作者使用可调整的 MAC 函数 HK 来生成 b 位身份验证令牌 authi：</p>
+<p>​	authn保存在攻击者无法修改的寄存器中。下图显示了如何将身份验证令牌和返回地址存储在调用堆栈中。在函数调用中，authi在对被调用方的整个调用过程中保留。在返回reti时，将从堆栈中加载auth0i−1和ret0i值，并通过比较HK(auth0i−1,ret0i)与authi进行验证。如果结果不同，则一个或两个加载值都已损坏。否则，它们是有效的。即 auth0i−1 &#x3D; authi−1和ret0i &#x3D; reti，在这种情况下，在函数返回reti之前，将authi替换为安全寄存器中经过验证的authi−1。</p>
+<p>​	为了紧凑性，我们可以将 authi 和 reti 组合成经过身份验证的返回地址 areti：</p>
+<p>​	对于某些给定的 areti−1，如果 authi &#x3D; HK(reti,areti−1)，我们称 authi 和相应的 areti 有效。</p>
+<h4 id="PACStack：ACS的实现"><a href="#PACStack：ACS的实现" class="headerlink" title="PACStack：ACS的实现"></a>PACStack：ACS的实现</h4><p>​	作者提出了一种基于ARMv8.3A PA的<strong>ACS</strong>实现方案<strong>PACStack</strong>。<strong>PACStack</strong>基于LLVM 9.0并且集成于64位ARM后端。<strong>PACStack</strong>修改了<strong>AArch64FrameLowering</strong>，以便该函数在 <strong>栈帧设置</strong>（FrameSetup） 和 <strong>栈帧销毁</strong>（FrameDestroy） 期间分别存储和加载 aretn−1。作者还修改了<strong>AArch64RegisterInfo</strong>，以确保<strong>链寄存器</strong>(CR)保留给<strong>PACStack</strong>使用。</p>
+<p><strong>LLVM</strong>：LLVM（Low Level Virtual Machine）是一个开源的编译器基础设施项目，提供了一系列工具、库和技术，用于构建编译器、调试器、静态分析工具和其他与编程语言相关的工具。</p>
+<p><strong>AArch64FrameLowering</strong>：AArch64FrameLowering是与ARM64体系结构（AArch64）相关的一个组件，它负责处理函数调用时的栈帧操作。</p>
+<p><strong>AArch64RegisterInfo</strong>：AArch64RegisterInfo是与ARM64体系结构（AArch64）相关的组件之一，其提供了关于AArch64体系结构寄存器的信息和操作。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>​	<strong>ACS</strong> 实现了与硬件辅助影子堆栈同等的安全性。通过 <strong>PACStack</strong>，作者演示了如何实现其设计，而不需要额外的硬件支持或损害安全性。</p>
 
     </article>
     
@@ -420,7 +429,7 @@ pre:active {
     <div class="article-catelogue--wrapper">
       <div class="catelogue catelogue-1">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">提出问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">提出方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ACS%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.</span> <span class="toc-text">ACS的设计</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">提出问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">提出方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ACS%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.</span> <span class="toc-text">ACS的设计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PACStack%EF%BC%9AACS%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">4.</span> <span class="toc-text">PACStack：ACS的实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
       </div>
       
         <div class="catelogue catelogue-2">
