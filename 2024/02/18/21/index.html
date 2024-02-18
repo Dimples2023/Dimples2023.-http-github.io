@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>我的技术与生活——L2 | Dimples的Blog</title>
+  <title>我的技术与生活——L7 | Dimples的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `我的技术与生活——L2`
+    document.title = `我的技术与生活——L7`
   </script>
 <meta name="generator" content="Hexo 6.3.0"></head>
 
@@ -371,7 +371,7 @@ pre:active {
 
 <div class="article-container">
   <div class="article">
-    <h1 class="article-title">L2</h1>
+    <h1 class="article-title">L7</h1>
     <div class="article-info">
       <div class="article-info--item">
         <div class="article-info--info">
@@ -387,136 +387,89 @@ pre:active {
             
           </div>
           
-          <p class="article-info--date">日期：2024-02-07 18:44:44</p>
+          <p class="article-info--date">日期：2024-02-18 19:26:21</p>
         </div>
         <img src="/imgs/default-cover.webp" alt="" class="article-cover">
       </div>
     </div>
     <article class="article-content">
-      <h4 id="1-最长回文子串"><a href="#1-最长回文子串" class="headerlink" title="1.最长回文子串"></a>1.最长回文子串</h4><p><strong>知识点</strong>：字符串 动态规划</p>
-<p><strong>描述</strong>：</p>
-<p>给你一个字符串 <code>s</code>，找到 <code>s</code> 中最长的回文子串。</p>
-<p>如果字符串的反序与原始字符串相同，则该字符串称为回文字符串。</p>
+      <h4 id="1-根据身高重建队列"><a href="#1-根据身高重建队列" class="headerlink" title="1.根据身高重建队列"></a>1.根据身高重建队列</h4><p>题目：</p>
+<p>假设有打乱顺序的一群人站成一个队列，数组 <code>people</code> 表示队列中一些人的属性（不一定按顺序）。每个 <code>people[i] = [hi, ki]</code> 表示第 <code>i</code> 个人的身高为 <code>hi</code> ，前面 <strong>正好</strong> 有 <code>ki</code> 个身高大于或等于 <code>hi</code> 的人。</p>
+<p>请你重新构造并返回输入数组 <code>people</code> 所表示的队列。返回的队列应该格式化为数组 <code>queue</code> ，其中 <code>queue[j] = [hj, kj]</code> 是队列中第 <code>j</code> 个人的属性（<code>queue[0]</code> 是排在队列前面的人）。</p>
 <p><strong>示例 1：</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">输入：s &#x3D; &quot;babad&quot;
-输出：&quot;bab&quot;
-解释：&quot;aba&quot; 同样是符合题意的答案。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-none"><code class="language-none">输入：people &#x3D; [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]
+输出：[[5,0],[7,0],[5,2],[6,1],[4,4],[7,1]]
+解释：
+编号为 0 的人身高为 5 ，没有身高更高或者相同的人排在他前面。
+编号为 1 的人身高为 7 ，没有身高更高或者相同的人排在他前面。
+编号为 2 的人身高为 5 ，有 2 个身高更高或者相同的人排在他前面，即编号为 0 和 1 的人。
+编号为 3 的人身高为 6 ，有 1 个身高更高或者相同的人排在他前面，即编号为 1 的人。
+编号为 4 的人身高为 4 ，有 4 个身高更高或者相同的人排在他前面，即编号为 0、1、2、3 的人。
+编号为 5 的人身高为 7 ，有 1 个身高更高或者相同的人排在他前面，即编号为 1 的人。
+因此 [[5,0],[7,0],[5,2],[6,1],[4,4],[7,1]] 是重新构造后的队列。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p><strong>示例 2：</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">输入：s &#x3D; &quot;cbbd&quot;
-输出：&quot;bb&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-none"><code class="language-none">输入：people &#x3D; [[6,0],[5,0],[4,0],[3,2],[2,2],[1,4]]
+输出：[[4,0],[5,0],[2,2],[3,2],[1,4],[6,0]]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-<p><strong>题解</strong>：</p>
-<h5 id="1-暴力-超时"><a href="#1-暴力-超时" class="headerlink" title="1.暴力-超时"></a><strong>1.暴力-超时</strong></h5><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
-    <span class="token keyword">def</span> <span class="token function">longestPalindrome</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> s<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">str</span><span class="token punctuation">:</span>
-        <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">:</span>
-            <span class="token keyword">return</span> <span class="token number">1</span>
-        max_len<span class="token operator">=</span><span class="token number">1</span>
-        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-            <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-                start<span class="token operator">=</span>i
-                end<span class="token operator">=</span>j
-                flag<span class="token operator">=</span><span class="token number">0</span>
-                <span class="token keyword">while</span><span class="token punctuation">(</span>end<span class="token operator">></span>start<span class="token punctuation">)</span><span class="token punctuation">:</span>
-                    <span class="token keyword">if</span> s<span class="token punctuation">[</span>start<span class="token punctuation">]</span><span class="token operator">!=</span>s<span class="token punctuation">[</span>end<span class="token punctuation">]</span><span class="token punctuation">:</span>
-                        flag<span class="token operator">=</span><span class="token number">1</span>
-                        <span class="token keyword">break</span>
-                    start<span class="token operator">+=</span><span class="token number">1</span>
-                    end<span class="token operator">-=</span><span class="token number">1</span>
-                <span class="token keyword">if</span> flag<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">:</span>
-                    <span class="token keyword">if</span> max_len<span class="token operator">&lt;</span>j<span class="token operator">-</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">:</span>
-                        max_len<span class="token operator">=</span>j<span class="token operator">-</span>i<span class="token operator">+</span><span class="token number">1</span>
-                        m<span class="token operator">=</span>i
-                        n<span class="token operator">=</span>j
-        <span class="token keyword">return</span> s<span class="token punctuation">[</span>m<span class="token punctuation">:</span>n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span>                 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h5 id="2-动态规划"><a href="#2-动态规划" class="headerlink" title="2.动态规划"></a>2.动态规划</h5><p><strong>思路</strong>：</p>
-<p>1.构造二维矩阵dp，维度为len(s)*len(s)，dp[left] [right]表示子串s[left:right+1]是否为回文串，left和right均为下标索引，范围在0~len(s)之间，且left&lt;right，因此dp矩阵中的每一个变量均为布尔量；<br> 2.构造状态转移方程，考虑三种情况，<br> （1）left &#x3D; right，当前子串只有一个字符，一定为回文串；<br> （2）right &#x3D; left + 1，当前子串只有两个字符，判断这两个字符是否相等；<br> （3）right &gt; left + 1，当前子串有多个字符，判断根据首位字符是否相等以及除去首位字符剩余子串是否为回文串判定当前子串。<br> 状态转移方程为：</p>
-<p><img src="https://cloud-imags.oss-cn-beijing.aliyuncs.com/C:%5CUsers%5C27783%5CAppData%5CLocal%5CPrograms%5CPicGoimage-20240206174916855.png" alt="image-20240206174916855"></p>
-<p><strong>注意：在状态转移方程中，我们是从长度较短的字符串向长度较长的字符串进行转移的，因此一定要注意动态规划的循环顺序</strong></p>
+<p>题解：</p>
+<p>思路：<br>假设有一个队列，已知每个人的身高h和排在该人前面的更高或一样高的人数k，现在给你打乱顺序后的数组，要求恢复原来的队列。</p>
+<p>考虑将这群人依次加入新队列中，加入时需符合k的要求。注意到，一个人的k值实际上与身高更矮的人的位置无关，所以如果身高比他更高的人已经排好队了，这个人加入当前队列的位置就可以根据k值确定了。因此，身高较高的人应该先加入，我们先对队列按身高降序排序。此外，对于相同身高的人，k值较小的人位置在前，优先加入。</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
-    <span class="token keyword">def</span> <span class="token function">longestPalindrome</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> s<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">str</span><span class="token punctuation">:</span>
-        <span class="token comment">#一个字符必为回文</span>
-        <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">:</span>
-            <span class="token keyword">return</span> s
-        <span class="token comment"># dp[i][j] 表示 s[i..j] 是否是回文串</span>
-        dp<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token boolean">False</span><span class="token punctuation">]</span><span class="token operator">*</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token keyword">for</span> _ <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
-        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-            dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token boolean">True</span>
-        <span class="token comment">#记录最大回文长度以及起始位置</span>
-        max_len<span class="token punctuation">,</span>max_start<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span>
+    <span class="token keyword">def</span> <span class="token function">reconstructQueue</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> people<span class="token punctuation">:</span> List<span class="token punctuation">[</span>List<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> List<span class="token punctuation">[</span>List<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>people<span class="token punctuation">)</span> <span class="token operator">&lt;=</span> <span class="token number">1</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> people
         
-        <span class="token comment"># 递推开始</span>
-        <span class="token comment"># 先枚举子串长度</span>
-        <span class="token keyword">for</span> L <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-            <span class="token comment"># 枚举左边界</span>
-            <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-                <span class="token comment"># 由 L 和 i 可以确定右边界</span>
-                j<span class="token operator">=</span>i<span class="token operator">+</span>L<span class="token operator">-</span><span class="token number">1</span>
-                <span class="token comment"># 如果右边界越界，就可以退出当前循环</span>
-                <span class="token keyword">if</span> j<span class="token operator">>=</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span>
-                    <span class="token keyword">break</span>
-                <span class="token comment">#第一种情况</span>
-                <span class="token keyword">if</span> j<span class="token operator">-</span>i<span class="token operator">&lt;=</span><span class="token number">1</span><span class="token punctuation">:</span>
-                    dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">(</span>s<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">==</span>s<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span>
-                <span class="token comment">#第二种情况</span>
-                <span class="token keyword">else</span><span class="token punctuation">:</span>
-                    dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">(</span>s<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">==</span>s<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">and</span> <span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-                cur_len<span class="token operator">=</span>j<span class="token operator">-</span>i<span class="token operator">+</span><span class="token number">1</span>
-                 <span class="token comment"># 只要 dp[i][j] == true 成立，就表示子串 s[i..j] 是回文，此时记录回文长度和起始位置</span>
-                <span class="token keyword">if</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token keyword">and</span> cur_len<span class="token operator">></span>max_len<span class="token punctuation">:</span>
-                    max_len<span class="token operator">=</span>cur_len
-                    max_start<span class="token operator">=</span>i
-        <span class="token keyword">return</span> s<span class="token punctuation">[</span>max_start<span class="token punctuation">:</span>max_start<span class="token operator">+</span>max_len<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+        <span class="token comment">## 对队列排序，先按h降序，再按k升序</span>
+        people <span class="token operator">=</span> <span class="token builtin">sorted</span><span class="token punctuation">(</span>people<span class="token punctuation">,</span> key <span class="token operator">=</span> <span class="token keyword">lambda</span> x<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token operator">-</span>x<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        new_people <span class="token operator">=</span> <span class="token punctuation">[</span>people<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">]</span>    <span class="token comment"># 这个人是从前往后、从上往下看到的第一个人</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> people<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+            new_people<span class="token punctuation">.</span>insert<span class="token punctuation">(</span>i<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> new_people<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h4 id="2-无列名注入"><a href="#2-无列名注入" class="headerlink" title="2.无列名注入"></a>2.无列名注入</h4><p>执行以下普通查询将返回用户表内容</p>
-<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">MariaDB [dummydb]&gt; select * from users;
-+----+--------------+------------------------------------------+-----------------------------+------------+---------------------+
-| id | name         | password                                 | email                       | birthdate  | added               |
-+----+--------------+------------------------------------------+-----------------------------+------------+---------------------+
-|  1 | alias        | a45d4e080fc185dfa223aea3d0c371b6cc180a37 | veronica80@example.org      | 1981-05-03 | 1993-03-20 14:03:14 |
-|  2 | accusamus    | 114fec39a7c9567e8250409d467fed64389a7bee | sawayn.amelie@example.com   | 1979-10-28 | 2007-01-20 18:38:29 |
-|  3 | dolor        | 7f796c9e61c32a5ec3c85fed794c00eee2381d73 | stefan41@example.com        | 2005-11-16 | 1992-02-16 04:19:05 |
-|  4 | et           | aaaf2b311a1cd97485be716a896f9c09aff55b96 | zwalsh@example.com          | 2015-07-22 | 2014-03-05 22:57:18 |
-|  5 | voluptatibus | da16b4d9661c56bb448899d7b6d30060da014446 | pattie.medhurst@example.net | 1991-11-22 | 2005-12-04 20:38:41 |
-+----+--------------+------------------------------------------+-----------------------------+------------+---------------------+
-5 rows in set (0.00 sec)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="2-等差数列划分"><a href="#2-等差数列划分" class="headerlink" title="2.等差数列划分"></a>2.等差数列划分</h4><p>题目：</p>
+<p>如果一个数列 <strong>至少有三个元素</strong> ，并且任意两个相邻元素之差相同，则称该数列为等差数列。</p>
+<ul>
+<li>例如，<code>[1,3,5,7,9]</code>、<code>[7,7,7,7]</code> 和 <code>[3,-1,-5,-9]</code> 都是等差数列。</li>
+</ul>
+<p>给你一个整数数组 <code>nums</code> ，返回数组 <code>nums</code> 中所有为等差数组的 <strong>子数组</strong> 个数。</p>
+<p><strong>子数组</strong> 是数组中的一个连续序列。</p>
+<p><strong>示例 1：</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">输入：nums &#x3D; [1,2,3,4]
+输出：3
+解释：nums 中有三个子等差数组：[1, 2, 3]、[2, 3, 4] 和 [1,2,3,4] 自身。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-<p>下一步是将列名转换为任何可选的已知值，<br>这可以在SQL中转换为</p>
-<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">MariaDB [dummydb]&gt; select 1,2,3,4,5,6 union select * from users;
-+---+--------------+------------------------------------------+-----------------------------+------------+---------------------+
-| 1 | 2            | 3                                        | 4                           | 5          | 6                   |
-+---+--------------+------------------------------------------+-----------------------------+------------+---------------------+
-| 1 | 2            | 3                                        | 4                           | 5          | 6                   |
-| 1 | alias        | a45d4e080fc185dfa223aea3d0c371b6cc180a37 | veronica80@example.org      | 1981-05-03 | 1993-03-20 14:03:14 |
-| 2 | accusamus    | 114fec39a7c9567e8250409d467fed64389a7bee | sawayn.amelie@example.com   | 1979-10-28 | 2007-01-20 18:38:29 |
-| 3 | dolor        | 7f796c9e61c32a5ec3c85fed794c00eee2381d73 | stefan41@example.com        | 2005-11-16 | 1992-02-16 04:19:05 |
-| 4 | et           | aaaf2b311a1cd97485be716a896f9c09aff55b96 | zwalsh@example.com          | 2015-07-22 | 2014-03-05 22:57:18 |
-| 5 | voluptatibus | da16b4d9661c56bb448899d7b6d30060da014446 | pattie.medhurst@example.net | 1991-11-22 | 2005-12-04 20:38:41 |
-+---+--------------+------------------------------------------+-----------------------------+------------+---------------------+
-6 rows in set (0.00 sec)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>示例 2：</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">输入：nums &#x3D; [1]
+输出：0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-<p>下一步是根据新的数值选择数据，可以通过添加任何表别名从上一个查询中选择“field_number”来完成。</p>
-<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">MariaDB [dummydb]&gt; select &#96;4&#96; from (select 1,2,3,4,5,6 union select * from users)redforce;
-+-----------------------------+
-| 4                           |
-+-----------------------------+
-| 4                           |
-| veronica80@example.org      |
-| sawayn.amelie@example.com   |
-| stefan41@example.com        |
-| zwalsh@example.com          |
-| pattie.medhurst@example.net |
-+-----------------------------+
-6 rows in set (0.00 sec)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>题解：</p>
+<p>思路：<br>双指针法，复杂度O(n)，遍历一遍，一个指向当前等差串前端，一个当前等差串指向末尾<br>实际实现时无需维护前后指针位置，只要维护当前等差串长度即可<br>每一个最长等差串对应(l-1)*(l-2)&#x2F;2个子串</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">numberOfArithmeticSlices</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> nums<span class="token punctuation">:</span> List<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">int</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token operator">&lt;</span><span class="token number">3</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token number">0</span>
+        res<span class="token operator">=</span><span class="token number">0</span>
+        diff<span class="token operator">=</span>nums<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">-</span>nums<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+        last<span class="token operator">=</span>nums<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+        l<span class="token operator">=</span><span class="token number">2</span>
+        <span class="token keyword">for</span> num <span class="token keyword">in</span> nums<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+            newdiff<span class="token operator">=</span>num<span class="token operator">-</span>last 
+            <span class="token keyword">if</span> newdiff<span class="token operator">==</span>diff<span class="token punctuation">:</span>
+                l<span class="token operator">+=</span><span class="token number">1</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                res<span class="token operator">+=</span><span class="token punctuation">(</span>l<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>l<span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span>
+                l<span class="token operator">=</span><span class="token number">2</span>
+                diff<span class="token operator">=</span>newdiff
+            last<span class="token operator">=</span>num         
+        <span class="token keyword">return</span> <span class="token builtin">int</span><span class="token punctuation">(</span>res<span class="token operator">+</span><span class="token punctuation">(</span>l<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>l<span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p>[<a target="_blank" rel="noopener" href="https://blog.redforce.io/sqli-extracting-data-without-knowing-columns-names/">SQLi] Extracting data without knowing columns names – Redforce</a></p>
 
     </article>
     
     <div class="read-nums">
       <!-- id 将作为查询条件 -->
-      <span id="2024/02/07/10/" class="leancloud_visitors" data-flag-title="Your Article Title">
+      <span id="2024/02/18/21/" class="leancloud_visitors" data-flag-title="Your Article Title">
         <em class="post-meta-item-text">浏览量</em>
         <i class="leancloud-visitors-count"></i>
       </span>
@@ -532,20 +485,20 @@ pre:active {
     <div class="article-catelogue--wrapper">
       <div class="catelogue catelogue-1">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2"><span class="toc-number">1.</span> <span class="toc-text">1.最长回文子串</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%9A%B4%E5%8A%9B-%E8%B6%85%E6%97%B6"><span class="toc-number">1.1.</span> <span class="toc-text">1.暴力-超时</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="toc-number">1.2.</span> <span class="toc-text">2.动态规划</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%97%A0%E5%88%97%E5%90%8D%E6%B3%A8%E5%85%A5"><span class="toc-number">2.</span> <span class="toc-text">2.无列名注入</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%A0%B9%E6%8D%AE%E8%BA%AB%E9%AB%98%E9%87%8D%E5%BB%BA%E9%98%9F%E5%88%97"><span class="toc-number">1.</span> <span class="toc-text">1.根据身高重建队列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%AD%89%E5%B7%AE%E6%95%B0%E5%88%97%E5%88%92%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">2.等差数列划分</span></a></li></ol>
       </div>
       
         <div class="catelogue catelogue-2">
           
             <p>
               <span>上一篇：</span>
-              <a href="/2024/02/08/11/">S4</a>
+              <a href="/2024/02/19/22/">L8</a>
             </p>
            
           
             <p>
               <span>下一篇</span>
-              <a href="/2024/02/06/9/">L1</a>
+              <a href="/2024/02/17/20/">L6</a>
             </p>
           
         </div>
@@ -568,7 +521,7 @@ pre:active {
     recordIP: config.recordIP,
     visitor: config.visitor,
     enableQQ: config.enableQQ,
-    path: '2024/02/07/10/'
+    path: '2024/02/18/21/'
   })
 </script>
 
